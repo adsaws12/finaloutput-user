@@ -21,3 +21,4 @@ Route::get('/maps', 'MapController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin/shops', 'ShopController@index')->name('admin.shops');
