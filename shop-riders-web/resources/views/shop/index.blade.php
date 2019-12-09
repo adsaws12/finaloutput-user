@@ -13,6 +13,18 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
+                <a href="" class="btn btn-primary"><i class="plus-icons"></i> Add</a>
+            </div>
+            <div class="row">
+                <table class="table table-condesed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Desc</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
