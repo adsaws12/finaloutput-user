@@ -1,12 +1,14 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import {StyleSheet, View, Dimensions, Platform, Alert} from 'react-native';
+import {StyleSheet, View, Dimensions, Platform, Alert, Text, Button} from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 const LATITUDE_DELTA  = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
-export default class App extends React.Component {
-    state = {
+class HomeScreen extends React.Component {
+     state = {
         region: {
             latitude:       37.78825,
             longitude:      -122.4324,
@@ -15,12 +17,13 @@ export default class App extends React.Component {
         },
         ready:  false,
         marker: [
-          {
-            latitude: 45.65,
-            longitude: -78.90,
-            title: 'Foo Place',
-            subtitle: '1234 Foo Drive'
-          }
+            {
+                id: 1,
+                latitude:  10.328142,
+                longitude: 123.9064438,
+                title:     'Foo Place',
+                subtitle:  '1234 Foo Drive'
+            }
         ]
     }
 
@@ -48,11 +51,9 @@ export default class App extends React.Component {
                         latitudeDelta:  LATITUDE_DELTA,
                         longitudeDelta: LONGITUDE_DELTA,
                     };
-                    console.log(region);
-                    this.setRegion(region) ;
+                    this.setRegion(region);
                 },
                 (error) => {
-                    console.log(error.message);
                     switch (error.code) {
                         case 1:
                             if (Platform.OS === "ios") {
@@ -69,7 +70,27 @@ export default class App extends React.Component {
         } catch (e) {
             alert(e.message || "");
         }
-    };
+    }
+
+    markers() {
+         let markers = [];
+         for (i = 0; i < this.state.marker.length; i++) {
+             console.log(this.state.marker[i])
+             let marker = this.state.marker[i];
+             markers.push(<MapView.Marker
+                coordinate={{
+                    latitude: marker.latitude,
+                    longitude: marker.longitude
+                }}
+                title={marker.title}
+                description={marker.subtitle}
+                onCalloutPress={() => this.props.navigation.navigate('Details', {
+                    shop_id: marker.id
+                })}
+             />)
+         }
+         return markers;
+    }
 
     render() {
         if (this.state.ready) {
@@ -78,24 +99,47 @@ export default class App extends React.Component {
                 initialRegion={this.state.region}
                 showsUserLocation={true}
             >
-               <MapView.Marker
-                    coordinate={{
-                        latitude: 10.328142,
-                        longitude: 123.9064438
-                    }}
-                    title={"title"}
-                    description={"description"}
-                 />
+                { this.markers() }
             </MapView>
         } else {
             mapview = null;
         }
         return (
             <View style={styles.container}>
-                { mapview }
+                {mapview}
             </View>
         );
     }
+}
+
+class DetailsScreen extends React.Component {
+  render() {
+      const { navigation } = this.props;
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Details Screen</Text>
+          <Text>SHOP ID: { navigation.getParam('shop_id') }</Text>
+      </View>
+    );
+  }
+}
+
+const RootStack = createStackNavigator(
+  {
+    Home: HomeScreen,
+    Details: DetailsScreen,
+  },
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
+
+export default class App extends React.Component {
+  render() {
+    return <AppContainer />;
+  }
 }
 
 const styles = StyleSheet.create({
