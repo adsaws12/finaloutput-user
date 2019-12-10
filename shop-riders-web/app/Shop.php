@@ -14,4 +14,9 @@ class Shop extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
+    public function shopMarkers()
+    {
+        return $this->hasMany('App\ShopMarker','shop_id', 'id');
+    }
 }

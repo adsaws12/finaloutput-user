@@ -5,7 +5,7 @@
                 <h4 class="card-title">Add Shop</h4>
             </div>
             <div class="card-body">
-                <form method="post" action="">
+                <form>
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group">
@@ -46,20 +46,20 @@
                                 <gmap-map
                                         :center="center"
                                         :zoom="17"
-                                        style="width:100%;  height: 400px;"
+                                        style="width:95%;  height: 400px;"
                                 >
                                     <gmap-marker
                                             :key="index"
                                             v-for="(m, index) in form.markers"
-                                            :position="m.position"
-                                            @click="center=m.position"
+                                            :position="m"
+                                            @click="center=m"
                                             :draggable="true"
                                     ></gmap-marker>
                                 </gmap-map>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary pull-left"  @click="addShop">Submit</button>
+                    <button type="submit" class="btn btn-primary pull-left" @click="addShop">Submit</button>
                     <div class="clearfix"></div>
                 </form>
             </div>
@@ -97,22 +97,20 @@
             },
             addShop(e) {
                 e.preventDefault();
-                axios.post('/admin/shop/admin', this.form)
-                .then((res) => {
-                        toastr.success('Successfully created a shop');
-                    //
+                axios.post('/admin/shop/add', this.form)
+                    .then(() => {
+                        toastr.success('Successfully created');
                         setTimeout(() => {
                             location.href = '/admin/shops';
                         }, 1000);
-                })
-                .catch(error => {
-                    // let statusCode = error.response.status;
-                    // if (statusCode === 422) {
-                    //     this.errors = error.response.data.errors;
-                    // }
-                    // this.btnUpdate = this.$_('labels.update', null, 'jp');
-                    // this.submitted = false;
-                });
+                    })
+                    .catch(error => {
+                        toastr.success('Something went wrong');
+                        setTimeout(() => {
+                            location.href = '/admin/shop/add';
+                        }, 1000);
+                    });
+
             }
         },
         mounted() {

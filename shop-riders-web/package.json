@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "toastr": "^2.1.4",
+        "vue-toastr-2": "0.0.10",
         "vue2-google-maps": "^0.10.7"
     }
 }
