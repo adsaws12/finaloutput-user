@@ -22,3 +22,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin/shops', 'ShopController@index')->name('admin.shops');
+Route::get('/admin/shop/add', 'ShopController@add')->name('admin.shop.add');
+Route::post('/admin/shop/add', 'ShopController@addSubmit')->name('admin.shop.addSubmit');

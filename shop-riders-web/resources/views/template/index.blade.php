@@ -70,11 +70,14 @@
         </ul>
       </div>
     </div>
-    <div class="main-panel">
+    <div class="main-panel" id="app">
       <!-- End Navbar -->
       @yield('content')
     </div>
   </div>
+
+  <script src="{{ mix('js/app.js') }}"></script>
+  @stack('scripts')
   <!--   Core JS Files   -->
   <script src="{{ asset('assets/js/core/jquery.min.js')}}"></script>
   <script src="{{ asset('assets/js/core/popper.min.js')}}"></script>

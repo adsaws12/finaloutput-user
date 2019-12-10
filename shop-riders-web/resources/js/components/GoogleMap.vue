@@ -1,30 +1,69 @@
 <template>
-    <div style="width:700px">
-        <div>
-            <h2>Search and add a pin</h2>
-            <label>
-                <gmap-autocomplete
-                        @place_changed="setPlace">
-                </gmap-autocomplete>
-                <button @click="addMarker">Add</button>
-            </label>
-            <br/>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Add Shop</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Name</label>
+                                <input type="text" class="form-control" name="name" v-model="form.name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <div class="form-group">
+                                    <label class="bmd-label-floating"> Please input your shop description.</label>
+                                    <textarea class="form-control" rows="5" v-model="form.description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="width:700px">
+                                <div>
+                                    <h4 class="card-title">Search and add a pin</h4>
+                                    <label>
+                                        <gmap-autocomplete
+                                                @place_changed="setPlace"
+                                                class="form-control"
+                                                style="width: 500px;"
+                                        >
+                                        </gmap-autocomplete>
+                                        <button @click="addMarker" class="btn btn-primary" type="button">Add</button>
+                                    </label>
+                                    <br/>
 
+                                </div>
+                                <br>
+                                <gmap-map
+                                        :center="center"
+                                        :zoom="17"
+                                        style="width:100%;  height: 400px;"
+                                >
+                                    <gmap-marker
+                                            :key="index"
+                                            v-for="(m, index) in form.markers"
+                                            :position="m.position"
+                                            @click="center=m.position"
+                                            :draggable="true"
+                                    ></gmap-marker>
+                                </gmap-map>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-left"  @click="addShop">Submit</button>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
         </div>
-        <br>
-        <gmap-map
-                :center="center"
-                :zoom="17"
-                style="width:100%;  height: 400px;"
-        >
-            <gmap-marker
-                    :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
-                    @click="center=m.position"
-                    :draggable="true"
-            ></gmap-marker>
-        </gmap-map>
     </div>
 </template>
 
@@ -42,7 +81,7 @@
                         lat: this.currentPlace.geometry.location.lat(),
                         lng: this.currentPlace.geometry.location.lng()
                     };
-                    this.markers.push({position: marker});
+                    this.form.markers.push(marker);
                     this.places.push(this.currentPlace);
                     this.center       = marker;
                     this.currentPlace = null;
@@ -56,6 +95,25 @@
                     };
                 });
             },
+            addShop(e) {
+                e.preventDefault();
+                axios.post('/admin/shop/admin', this.form)
+                .then((res) => {
+                        toastr.success('Successfully created a shop');
+                    //
+                        setTimeout(() => {
+                            location.href = '/admin/shops';
+                        }, 1000);
+                })
+                .catch(error => {
+                    // let statusCode = error.response.status;
+                    // if (statusCode === 422) {
+                    //     this.errors = error.response.data.errors;
+                    // }
+                    // this.btnUpdate = this.$_('labels.update', null, 'jp');
+                    // this.submitted = false;
+                });
+            }
         },
         mounted() {
             this.geolocate();
@@ -63,9 +121,13 @@
         data() {
             return {
                 center:       {lat: 10.328142, lng: 123.9064438},
-                markers:      [],
                 places:       [],
-                currentPlace: null
+                currentPlace: null,
+                form:         {
+                    name:        null,
+                    description: null,
+                    markers:     []
+                }
             }
         },
         computed: {
