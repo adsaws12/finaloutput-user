@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\ShopMarker;
 use Illuminate\Http\Request;
 use App\Shop;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class ShopController extends Controller
 {
@@ -24,9 +26,22 @@ class ShopController extends Controller
 
     public function addSubmit(Request $request)
     {
+        $user = new User;
+        $user->email = $request->get('email');
+        $user->name = $request->get('name');
+        $user->password = Hash::make($request->get('password'));
+        $user->types = 1; // shop account
+        $user->save();
+        $user_id = $user->id;
+
         $shop = new Shop;
         $shop->name = $request->get('name');
         $shop->description = $request->get('description');
+        $shop->start_time = $request->get('start_time');
+        $shop->end_time = $request->get('end_time');
+        $shop->service = $request->get('service');
+        $shop->contact = $request->get('contact');
+        $shop->user_id = $user_id;
         $shop->save();
         $shopId = $shop->id;
 
@@ -38,6 +53,74 @@ class ShopController extends Controller
             $shopMarker->save();
         }
 
+
+
         return response()->json(['message' => 'Success', 200]);
+    }
+
+    public function edit($shopId)
+    {
+        $shopInfo = Shop::query()->where('id', '=', $shopId)->with('userInfo', 'shopMarkers')->first();
+
+        return view('shop.edit', compact('shopInfo'));
+    }
+
+    public function editSubmit($shopId, Request $request)
+    {
+        $user_id = $request->get('users')['id'];
+        $userData = [
+            'email' => $request->get('users')['email'],
+            'name' => $request->get('shops')['name'],
+        ];
+        if (!empty($request->get('users')['password'])) {
+            $userData['password'] = Hash::make($request->get('users')['password']);
+        }
+        User::query()->where('id', '=', $user_id)->update($userData);
+
+
+        $shopData = [
+            'name' => $request->get('shops')['name'],
+            'description' => $request->get('shops')['description'],
+            'start_time' => $request->get('shops')['start_time'],
+            'end_time' => $request->get('shops')['end_time'],
+            'service' => $request->get('shops')['service'],
+            'contact' => $request->get('shops')['contact'],
+            'user_id' => $user_id
+        ];
+        Shop::query()->where('id', '=', $shopId)->update($shopData);
+
+        $shopMarker = new ShopMarker;
+        ShopMarker::query()->where('shop_id', '=', $shopId)->delete();
+        foreach ($request->get('markers') as $marker) {
+            $shopMarker->shop_id = $shopId;
+            $shopMarker->latitude = $marker['lat'];
+            $shopMarker->longitude = $marker['lng'];
+            $shopMarker->save();
+        }
+    }
+
+    public function markers()
+    {
+        $markers = ShopMarker::all();
+
+        return response()->json($markers);
+    }
+
+    public function info($shopId)
+    {
+        $shopInfo = Shop::query()->where('id', '=', $shopId)->with('userInfo', 'shopMarkers')->first();
+
+        return response()->json($shopInfo);
+    }
+
+    public function delete($shopId)
+    {
+        $shopInfo = Shop::query()->where('id', '=', $shopId)->first();
+        Shop::query()->where('id','=', $shopId)->delete();
+        ShopMarker::query()->where('shop_id', '=', $shopId)->delete();
+        User::query()->where('id', '=', $shopInfo->user_id)->delete();
+
+        return redirect()->to('/admin/shops');
+
     }
 }

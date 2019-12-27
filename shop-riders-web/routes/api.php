@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/shop/markers', 'ShopController@markers')->name('shop.markers');
+Route::get('/shop/{id}', 'ShopController@info')->name('shop.info');

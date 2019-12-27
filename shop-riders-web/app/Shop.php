@@ -12,11 +12,16 @@ class Shop extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'start_time', 'end_time', 'user_id', 'contact', 'service'
     ];
 
     public function shopMarkers()
     {
         return $this->hasMany('App\ShopMarker','shop_id', 'id');
+    }
+
+    public function userInfo()
+    {
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 }

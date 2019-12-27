@@ -2,7 +2,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4 class="card-title">Add Shop</h4>
+                <h4 class="card-title">Edit Shop</h4>
             </div>
             <div class="card-body">
                 <form>
@@ -10,7 +10,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Email</label>
-                                <input type="text" class="form-control" name="email" v-model="form.email">
+                                <input type="text" class="form-control" name="email" v-model="form.users.email">
                             </div>
                         </div>
                     </div>
@@ -18,7 +18,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Password</label>
-                                <input type="password" class="form-control" name="email" v-model="form.password">
+                                <input type="password" class="form-control" name="email" v-model="form.users.password">
                             </div>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Name</label>
-                                <input type="text" class="form-control" name="password" v-model="form.name">
+                                <input type="text" class="form-control" name="password" v-model="form.shops.name">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                 <label>Description</label>
                                 <div class="form-group">
                                     <label class="bmd-label-floating"> Please input your shop description.</label>
-                                    <textarea class="form-control" rows="5" v-model="form.description"></textarea>
+                                    <textarea class="form-control" rows="5" v-model="form.shops.description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Contact Number</label>
-                                <input type="number" class="form-control" name="contact" v-model="form.contact">
+                                <input type="number" class="form-control" name="contact" v-model="form.shops.contact">
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Type of Service</label>
-                                <select class="form-control" v-model="form.service">
+                                <select class="form-control" v-model="form.shops.service">
                                     <option value="Vulcanizing">Vulcanizing</option>
                                     <option value="Repair">Repair</option>
                                     <option value="Vulcanizing and Repair">Vulcanizing and Repair</option>
@@ -65,11 +65,11 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Working Hour</label>
-                                <select class="form-control" v-model="form.start_time">
+                                <select class="form-control" v-model="form.shops.start_time">
                                     <option v-for="time in opening_time">{{ time }}</option>
                                 </select>
                                 ~
-                                <select class="form-control" v-model="form.end_time">
+                                <select class="form-control" v-model="form.shops.end_time">
                                     <option v-for="time in opening_time">{{ time }}</option>
                                 </select>
                             </div>
@@ -93,7 +93,7 @@
                                 <br>
                                 <gmap-map
                                         :center="center"
-                                        :zoom="17"
+                                        :zoom="15"
                                         style="width:95%;  height: 400px;"
                                 >
                                     <gmap-marker
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary pull-left" @click="addShop">Submit</button>
+                    <button type="submit" class="btn btn-primary pull-left" @click="editShop">Submit</button>
                     <div class="clearfix"></div>
                 </form>
             </div>
@@ -143,9 +143,9 @@
                     };
                 });
             },
-            addShop(e) {
+            editShop(e) {
                 e.preventDefault();
-                axios.post('/admin/shop/add', this.form)
+                axios.post('/admin/shop/edit/' + this.shopinfo.id, this.form)
                     .then(() => {
                         toastr.success('Successfully created');
                         setTimeout(() => {
@@ -155,7 +155,7 @@
                     .catch(error => {
                         toastr.success('Something went wrong');
                         setTimeout(() => {
-                            location.href = '/admin/shop/add';
+                            location.href = '/admin/shop/edit/' + this.shopinfo.id;
                         }, 1000);
                     });
 
@@ -163,6 +163,26 @@
         },
         mounted() {
             this.geolocate();
+            this.form.users.email = this.shopinfo.user_info.email;
+            this.form.users.id = this.shopinfo.user_info.id;
+            this.form.shops.name = this.shopinfo.name;
+            this.form.shops.description = this.shopinfo.description;
+            this.form.shops.contact = this.shopinfo.contact;
+            this.form.shops.service = this.shopinfo.service;
+            this.form.shops.start_time = this.shopinfo.start_time;
+            this.form.shops.end_time = this.shopinfo.end_time;
+
+            const markers = [];
+            this.shopinfo.shop_markers.forEach(function (data) {
+                let mark = {
+                    lat: parseFloat(data.latitude),
+                    lng: parseFloat(data.longitude)
+                };
+                markers.push(mark);
+            });
+
+            this.form.markers = markers;
+            this.center = markers[0];
         },
         data() {
             const workingTime = [];
@@ -176,14 +196,27 @@
                 currentPlace: null,
                 opening_time: workingTime,
                 form:         {
-                    name:        null,
-                    description: null,
                     markers:     [],
-                    email: null,
-                    password: null,
-                    start_time: null,
-                    end_time: null
+                    users: {
+                        email: null,
+                        password: null,
+                        id: null,
+                    },
+                    shops: {
+                        name: null,
+                        description: null,
+                        start_time: null,
+                        end_time: null,
+                        service: null,
+                        contact: null,
+                    }
                 }
+            }
+        },
+        props: {
+            shopinfo: {
+                type: Object,
+                required: true
             }
         },
         computed: {

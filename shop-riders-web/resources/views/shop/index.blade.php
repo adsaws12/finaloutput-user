@@ -39,12 +39,12 @@
                                             <td>{{ $shop->name }}</td>
                                             <td>{{ $shop->description }}</td>
                                             <td width="100">
-                                                <a href="">
+                                                <a href="{{ route('admin.shop.edit', $shop->id) }}">
                                                     <i class="material-icons">
                                                         edit
                                                     </i>
                                                 </a>
-                                                <a href="">
+                                                <a href="{{ route('admin.shop.delete', $shop->id) }}">
                                                     <i class="material-icons">
                                                         delete
                                                     </i>

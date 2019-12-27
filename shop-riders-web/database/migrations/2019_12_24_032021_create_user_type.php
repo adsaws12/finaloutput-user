@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateShopMarkers extends Migration
+class CreateUserType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,8 @@ class CreateShopMarkers extends Migration
      */
     public function up()
     {
-        Schema::create('shop_markers', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('shop_id')->index();
-            $table->string('latitude');
-            $table->string('longitude');
-
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('types')->default(0)->comment('0 => admin, 1 => shop');
         });
     }
 
@@ -30,6 +25,8 @@ class CreateShopMarkers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shop_markers');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('types');
+        });
     }
 }
