@@ -36,8 +36,10 @@
                                 <tbody>
                                     @foreach ($shops as $shop)
                                         <tr>
-                                            <td>{{ $shop->name }}</td>
-                                            <td>{{ $shop->description }}</td>
+                                            <!-- <td>{{ $shop->name }}</td>
+                                            <td>{{ $shop->description }}</td> -->
+                                            <td>name 1 </td>
+                                            <td>sample description</td>
                                             <td width="100">
                                                 <a href="{{ route('admin.shop.edit', $shop->id) }}">
                                                     <i class="material-icons">

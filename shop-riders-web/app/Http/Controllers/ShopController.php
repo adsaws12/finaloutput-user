@@ -121,6 +121,5 @@ class ShopController extends Controller
         User::query()->where('id', '=', $shopInfo->user_id)->delete();
 
         return redirect()->to('/admin/shops');
-
     }
 }

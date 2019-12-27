@@ -1,6 +1,7 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import {StyleSheet, View, Dimensions, Platform, Alert, Text, Button} from 'react-native';
+import { Marker } from 'react-native-maps';
+import {StyleSheet, View, Dimensions, Platform, Alert, Text, Button,ScrollView} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -19,12 +20,37 @@ class HomeScreen extends React.Component {
         marker: [
             {
                 id: 1,
-                latitude:  10.328142,
-                longitude: 123.9064438,
-                title:     'Foo Place',
-                subtitle:  '1234 Foo Drive'
-            }
+                latitude:  10.323945,
+                longitude: 123.883606,
+                title:     'sample 1',
+                subtitle:  'Balay ni Tope'
+            },
+            {
+                id: 2,
+                latitude:  10.323946,
+                longitude: 123.888636,
+                title:     'Sample 2',
+                subtitle:  'Balay ni Mayang'
+            },
+            {
+                id: 3,
+                latitude:  10.326342,
+                longitude: 123.883606,
+                title:     'Sample 3',
+                subtitle:  'Balay ni jabo'
+            },
+            {
+                id: 4,
+                latitude:  10.326342,
+                longitude: 123.871606,
+                title:     'Sample 4',
+                subtitle:  'Balay ni jay'
+            },
+           
+
         ]
+       
+       
     }
 
     componentDidMount() {
@@ -87,6 +113,7 @@ class HomeScreen extends React.Component {
                 onCalloutPress={() => this.props.navigation.navigate('Details', {
                     shop_id: marker.id
                 })}
+                
              />)
          }
          return markers;
@@ -113,21 +140,90 @@ class HomeScreen extends React.Component {
 }
 
 class DetailsScreen extends React.Component {
-  render() {
-      const { navigation } = this.props;
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Details Screen</Text>
-          <Text>SHOP ID: { navigation.getParam('shop_id') }</Text>
-      </View>
-    );
+    render() {
+        const { navigation } = this.props;
+      return (
+        <ScrollView>  
+        <View style={styles.viewheader}>
+            <Text style={styles.textHeader}>VRSHOPLOCATOR</Text>
+        </View> 
+        <View style={styles.container}>
+            <Text style={styles.label}>Name of the Shop:</Text>
+            <Text style={styles.nameshop}>drex</Text>
+            <Text style={styles.label}>Types of Service:</Text>
+            <Text style={styles.nameshop}>Vulcanizing</Text>
+            <Text style={styles.label}>Contact Number:</Text>
+            <Text style={styles.nameshop}>123123</Text>
+            <Text style={styles.label}>Opening time and closing:</Text>
+            <Text style={styles.nameshop}>123123/12312321</Text>
+            <Text style={styles.label}>Number of personel:</Text>
+            <Text style={styles.nameshop}>123123</Text>
+            <Text style={styles.label}>Price range of Repair and Vulcanizing in Car:</Text>
+            <View style={styles.pricerangeflex}>
+                <View>
+                    <Text style={styles.nameshop}>12312</Text>
+                </View>  
+                <Text style={styles.lineright}></Text>
+                <View>
+                    <Text style={styles.nameshop}>12312</Text>
+                </View> 
+            </View>  
+            <Text style={styles.label}>Price range of Repair and Vulcanizing in MotorBike:</Text>
+            <View style={styles.pricerangeflex}>
+                <View>
+                    <Text style={styles.nameshop}>12312</Text>
+                </View>  
+                <Text style={styles.lineright}></Text>
+                <View>
+                    <Text style={styles.nameshop}>12312</Text>
+                </View> 
+            </View> 
+        </View>
+        <View style={styles.buttonView}>
+        <Button
+          title="Request"
+          onPress={() => Alert.alert('Request')}
+        />
+         <Button
+          style={styles.requestButton}
+          title="Products"
+          color="red"
+          onPress={() => this.props.navigation.navigate('Products')}
+        />
+        <Button
+          style={styles.requestButton}
+          title="GoTo"
+          color="green"
+          onPress={() => Alert.alert('Direction')}
+        />
+        </View>
+      </ScrollView>
+      );
+    }
   }
-}
-
+ 
+  class ProductsScreen extends React.Component {
+    render() {
+        const { navigation } = this.props;
+            return (
+                <ScrollView>   
+                <View style={{padding: 10}}>
+                <Text style={styles.label}>Name of Accessories in Cars and MotorBike</Text>
+                <Text style={styles.nameshop}>Decals</Text>
+                <Text style={styles.nameshop}>sidemirror</Text>
+                <Text style={styles.nameshop}>Ligid</Text>
+                <Text style={styles.nameshop}>sidemirror</Text>
+                <Text style={styles.nameshop}>tambotso</Text>
+                </View>
+            </ScrollView>
+            );
+        }
+    }
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
     Details: DetailsScreen,
+    Products :ProductsScreen,
   },
   {
     initialRouteName: 'Home',
@@ -144,13 +240,65 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex:            1,
+        flex: 1,
         backgroundColor: '#fff',
-        alignItems:      'center',
+        padding: 10,
         justifyContent:  'center',
     },
     mapStyle:  {
         width:  Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
+    nameshop: {
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 20, 
+        marginVertical: 8,
+        borderBottomColor: '#737373',
+        borderBottomWidth: StyleSheet.hairlineWidth,
+      },
+      label: {
+        color: 'violet',
+        fontWeight: 'bold',
+        fontSize: 15,
+        marginBottom: 5,
+        textShadowColor:'#585858',        
+      },
+      buttonView:{
+        flex: 1, 
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      },
+      requestButton:{
+        marginLeft:20,
+      },
+      pricerangeflex: {
+        flex: 1, 
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      },
+      lineright: {
+        borderRightWidth: 2
+      },
+      viewheader:{
+        backgroundColor: '#C100C1',
+        height: 60,
+        width: '90%',
+        marginTop: 0,
+        marginRight: 'auto',
+        marginBottom: 0,
+        marginLeft: 'auto',
+        borderRadius: 10,
+      },
+      textHeader: {
+        fontSize: 35,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding:10,
+        fontWeight: 'bold',
+        color: '#fff',
+      },
 });
+
+
+
