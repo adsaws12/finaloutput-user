@@ -19,8 +19,11 @@ Route::get('/', function () {
 Route::get('/maps', 'MapController@index');
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin/shops', 'ShopController@index')->name('admin.shops');
 Route::get('/admin/shop/add', 'ShopController@add')->name('admin.shop.add');
 Route::post('/admin/shop/add', 'ShopController@addSubmit')->name('admin.shop.addSubmit');
+Route::get('/admin/shop/{id}/', 'ShopController@edit')->name('admin.shop.edit');
+Route::get('/admin/shops/{id}/', 'ShopController@destroy')->name('admin.shop');
+
+Route::get('/admin/template/welcome', 'ShopController@index')->name('admin.template.weclome');

@@ -37,25 +37,15 @@
                                                 style="width: 500px;"
                                         >
                                         </gmap-autocomplete>
-                                        <button @click="addMarker" class="btn btn-primary" type="button">Add</button>
+                                        <button @click="addMarker" class="btn btn-primary" type="button">Add Marker</button>
                                     </label>
                                     <br/>
 
                                 </div>
                                 <br>
-                                <gmap-map
-                                        :center="center"
-                                        :zoom="17"
-                                        style="width:95%;  height: 400px;"
-                                >
-                                    <gmap-marker
-                                            :key="index"
-                                            v-for="(m, index) in form.markers"
-                                            :position="m"
-                                            @click="center=m"
-                                            :draggable="true"
-                                    ></gmap-marker>
-                                </gmap-map>
+                              <div>
+                               MAP AKONG E BUTANG DIARI
+                              </div>
                             </div>
                         </div>
                     </div>

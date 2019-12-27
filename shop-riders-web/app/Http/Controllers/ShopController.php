@@ -40,4 +40,22 @@ class ShopController extends Controller
 
         return response()->json(['message' => 'Success', 200]);
     }
+    public function edit($shopId)
+    { 
+        $shop = Shop::find($shopId);
+
+        // $shop = Shop::findOrFail($shop->id);
+        return view('shop.edit', compact('shop'));
+    }
+    public function destroy($id)
+    { 
+        $shop = Shop::find($id);
+        $shop_markers = ShopMarker::where('shop_id', $shop->id)->get();
+        $shop_markers_id = $shop_markers[0];
+        if ($shop != null) {
+            $shop ->delete();
+            $shop_markers_id ->delete();      
+        }
+        return redirect('admin/shops')->with('success','Deleted');
+    }
 }

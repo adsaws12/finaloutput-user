@@ -36,15 +36,17 @@
                                 <tbody>
                                     @foreach ($shops as $shop)
                                         <tr>
-                                            <td>{{ $shop->name }}</td>
-                                            <td>{{ $shop->description }}</td>
+                                            <!-- <td>{{ $shop->name }}</td>
+                                            <td>{{ $shop->description }}</td> -->
+                                            <td>name 1 </td>
+                                            <td>sample description</td>
                                             <td width="100">
-                                                <a href="">
+                                                <a href="{{route('admin.shop.edit',$shop->id)}}">
                                                     <i class="material-icons">
                                                         edit
                                                     </i>
                                                 </a>
-                                                <a href="">
+                                                <a href="{{route('admin.shop',$shop->id)}}">
                                                     <i class="material-icons">
                                                         delete
                                                     </i>

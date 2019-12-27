@@ -13,7 +13,7 @@
                 <span class="navbar-toggler-icon icon-bar"></span>
                 <span class="navbar-toggler-icon icon-bar"></span>
             </button>
-            @include('template.menu');
+            @include('template.menu')
         </div>
     </nav>
     <div class="content">

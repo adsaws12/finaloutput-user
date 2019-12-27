@@ -21,6 +21,7 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('app-component', require('./components/App.vue').default);
+Vue.component('edit-component', require('./components/Edit.vue').default);
 
 import * as VueGoogleMaps from 'vue2-google-maps'
 
