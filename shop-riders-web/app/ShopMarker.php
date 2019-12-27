@@ -14,4 +14,9 @@ class ShopMarker extends Model
     protected $fillable = [
         'shop_id', 'latitude', 'longitude',
     ];
+
+    public function shopInfo()
+    {
+        return $this->belongsTo('App\Shop', 'shop_id', 'id');
+    }
 }

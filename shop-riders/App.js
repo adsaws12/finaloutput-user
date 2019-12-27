@@ -17,44 +17,12 @@ class HomeScreen extends React.Component {
             longitudeDelta: LONGITUDE_DELTA,
         },
         ready:  false,
-        marker: [
-            {
-                id: 1,
-                latitude:  10.323945,
-                longitude: 123.883606,
-                title:     'sample 1',
-                subtitle:  'Balay ni Tope'
-            },
-            {
-                id: 2,
-                latitude:  10.323946,
-                longitude: 123.888636,
-                title:     'Sample 2',
-                subtitle:  'Balay ni Mayang'
-            },
-            {
-                id: 3,
-                latitude:  10.326342,
-                longitude: 123.883606,
-                title:     'Sample 3',
-                subtitle:  'Balay ni jabo'
-            },
-            {
-                id: 4,
-                latitude:  10.326342,
-                longitude: 123.871606,
-                title:     'Sample 4',
-                subtitle:  'Balay ni jay'
-            },
-           
-
-        ]
-       
-       
+        marker: []
     }
 
     componentDidMount() {
         this.getCurrentPosition();
+        this.getMarkers()
     }
 
     setRegion(region) {
@@ -66,6 +34,29 @@ class HomeScreen extends React.Component {
     setReady(ready) {
         this.setState({ready: ready});
     }
+
+    getMarkers() {
+          fetch('http://23683b23.ngrok.io/api/shop/markers', {
+            method: 'GET',
+          })
+      .then(response => response.json())
+      .then(json => {
+          let markers = [];
+          for (let i = 0; i < json.length; i++) {
+              markers.push({
+                  shop_id: json[i].shop_info.id,
+                  latitude: parseFloat(json[i].latitude),
+                  longitude: parseFloat(json[i].longitude),
+                  title: json[i].shop_info.name,
+                  subtitle: json[i].shop_info.description,
+              })
+          }
+          this.setState({marker: markers});
+      })
+      .catch(error => {
+        console.error(error);
+      });
+     }
 
     getCurrentPosition() {
         try {
@@ -101,7 +92,6 @@ class HomeScreen extends React.Component {
     markers() {
          let markers = [];
          for (i = 0; i < this.state.marker.length; i++) {
-             console.log(this.state.marker[i])
              let marker = this.state.marker[i];
              markers.push(<MapView.Marker
                 coordinate={{
@@ -111,9 +101,9 @@ class HomeScreen extends React.Component {
                 title={marker.title}
                 description={marker.subtitle}
                 onCalloutPress={() => this.props.navigation.navigate('Details', {
-                    shop_id: marker.id
+                    shop_id: marker.shop_id
                 })}
-                
+                key={marker.shop_id}
              />)
          }
          return markers;
@@ -140,7 +130,33 @@ class HomeScreen extends React.Component {
 }
 
 class DetailsScreen extends React.Component {
+   state = {
+        shopInfo: {
+            name: null,
+            service: null,
+            contact: null,
+            start_time: null,
+            end_time: null
+        },
+    }
+    componentDidMount() {
+        this.getShopInfo();
+    }
+    getShopInfo() {
+       const shopId = this.props.navigation.state.params.shop_id;
+          fetch('http://23683b23.ngrok.io/api/shop/' + shopId, {
+            method: 'GET',
+          })
+      .then(response => response.json())
+      .then(json => {
+          this.setState({shopInfo: json});
+      })
+      .catch(error => {
+        console.error(error);
+      });
+     }
     render() {
+       console.log(this.state.shopInfo);
         const { navigation } = this.props;
       return (
         <ScrollView>  
@@ -149,13 +165,13 @@ class DetailsScreen extends React.Component {
         </View> 
         <View style={styles.container}>
             <Text style={styles.label}>Name of the Shop:</Text>
-            <Text style={styles.nameshop}>drex</Text>
+            <Text style={styles.nameshop}>{ this.state.shopInfo.name }</Text>
             <Text style={styles.label}>Types of Service:</Text>
-            <Text style={styles.nameshop}>Vulcanizing</Text>
+            <Text style={styles.nameshop}>{ this.state.shopInfo.service }</Text>
             <Text style={styles.label}>Contact Number:</Text>
-            <Text style={styles.nameshop}>123123</Text>
+            <Text style={styles.nameshop}>{ this.state.shopInfo.contact }</Text>
             <Text style={styles.label}>Opening time and closing:</Text>
-            <Text style={styles.nameshop}>123123/12312321</Text>
+            <Text style={styles.nameshop}>{ this.state.shopInfo.start_time } ~ { this.state.shopInfo.end_time }</Text>
             <Text style={styles.label}>Number of personel:</Text>
             <Text style={styles.nameshop}>123123</Text>
             <Text style={styles.label}>Price range of Repair and Vulcanizing in Car:</Text>

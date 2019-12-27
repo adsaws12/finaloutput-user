@@ -101,7 +101,7 @@ class ShopController extends Controller
 
     public function markers()
     {
-        $markers = ShopMarker::all();
+        $markers = ShopMarker::all()->load('shopInfo');
 
         return response()->json($markers);
     }
