@@ -2246,6 +2246,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
@@ -39962,43 +39972,62 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
-              _c("div", { staticStyle: { width: "700px" } }, [
-                _c("div", [
-                  _c("h4", { staticClass: "card-title" }, [
-                    _vm._v("Search and add a pin")
+              _c(
+                "div",
+                { staticStyle: { width: "700px" } },
+                [
+                  _c("div", [
+                    _c("h4", { staticClass: "card-title" }, [
+                      _vm._v("Search and add a pin")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "label",
+                      [
+                        _c("gmap-autocomplete", {
+                          staticClass: "form-control",
+                          staticStyle: { width: "500px" },
+                          on: { place_changed: _vm.setPlace }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "button" },
+                            on: { click: _vm.addMarker }
+                          },
+                          [_vm._v("Add Marker")]
+                        )
+                      ],
+                      1
+                    )
                   ]),
                   _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
                   _c(
-                    "label",
-                    [
-                      _c("gmap-autocomplete", {
-                        staticClass: "form-control",
-                        staticStyle: { width: "500px" },
-                        on: { place_changed: _vm.setPlace }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary",
-                          attrs: { type: "button" },
-                          on: { click: _vm.addMarker }
-                        },
-                        [_vm._v("Add Marker")]
-                      )
-                    ],
+                    "gmap-map",
+                    {
+                      staticStyle: { width: "95%", height: "400px" },
+                      attrs: { center: _vm.center, zoom: 15 }
+                    },
+                    _vm._l(_vm.form.markers, function(m, index) {
+                      return _c("gmap-marker", {
+                        key: index,
+                        attrs: { position: m, draggable: true },
+                        on: {
+                          click: function($event) {
+                            _vm.center = m
+                          }
+                        }
+                      })
+                    }),
                     1
                   )
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("div", [
-                  _vm._v(
-                    "\n                           MAP AKONG E BUTANG DIARI\n                          "
-                  )
-                ])
-              ])
+                ],
+                1
+              )
             ])
           ]),
           _vm._v(" "),

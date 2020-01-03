@@ -91,9 +91,19 @@
                                     </label>
                                 </div>
                                 <br>
-                              <div>
-                               MAP AKONG E BUTANG DIARI
-                              </div>
+                              <gmap-map
+                                        :center="center"
+                                        :zoom="15"
+                                        style="width:95%;  height: 400px;"
+                                >
+                                    <gmap-marker
+                                            :key="index"
+                                            v-for="(m, index) in form.markers"
+                                            :position="m"
+                                            @click="center=m"
+                                            :draggable="true"
+                                    ></gmap-marker>
+                                </gmap-map>
                             </div>
                         </div>
                     </div>

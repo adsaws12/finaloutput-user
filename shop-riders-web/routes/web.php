@@ -21,7 +21,7 @@ Route::get('/maps', 'MapController@index');
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin/shops', 'ShopController@index')->name('admin.shops');
-Route::get('/admin/shop/{id}', 'ShopController@delete')->name('admin.shop.delete');
+Route::get('/admin/shop/delete/{id}', 'ShopController@delete')->name('admin.shop.delete');
 Route::get('/admin/shop/add', 'ShopController@add')->name('admin.shop.add');
 Route::post('/admin/shop/add', 'ShopController@addSubmit')->name('admin.shop.addSubmit');
 Route::get('/admin/shop/edit/{id}', 'ShopController@edit')->name('admin.shop.edit');
