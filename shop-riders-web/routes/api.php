@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/shop/markers', 'ShopController@markers')->name('shop.markers');
 Route::get('/shop/{id}', 'ShopController@info')->name('shop.info');
+Route::post('/user/add', 'UserController@add');
+// Route::post('/login/add', 'LoginController@add');

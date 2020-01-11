@@ -18,7 +18,7 @@ class DetailScreen extends React.Component {
 
     getShopInfo() {
         const shopId = this.props.navigation.state.params.shop_id;
-        fetch('http://842d9798.ngrok.io/api/shop/' + shopId, {
+        fetch('http://42035676.ngrok.io/api/shop/' + shopId, {
             method: 'GET',
         })
             .then(response => response.json())

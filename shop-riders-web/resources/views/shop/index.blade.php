@@ -7,7 +7,7 @@
             <div class="navbar-wrapper">
                 <a class="navbar-brand" href="{{ route('admin.shops') }}">Shops</a>
             </div>
-            @include('template.menu');
+            @include('template.menu')
         </div>
     </nav>
     <div class="content">

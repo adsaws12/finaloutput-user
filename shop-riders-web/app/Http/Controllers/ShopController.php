@@ -30,7 +30,7 @@ class ShopController extends Controller
         $user->email = $request->get('email');
         $user->name = $request->get('name');
         $user->password = Hash::make($request->get('password'));
-        $user->types = 1; // shop account
+        $user->types = 1; // shop account ang gi add
         $user->save();
         $user_id = $user->id;
 
