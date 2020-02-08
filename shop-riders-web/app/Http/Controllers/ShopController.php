@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Shop;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ShopController extends Controller
 {
@@ -41,11 +42,15 @@ class ShopController extends Controller
         $shop->end_time = $request->get('end_time');
         $shop->service = $request->get('service');
         $shop->contact = $request->get('contact');
+        $shop->personel = $request->get('personel');
+        $shop->priceofcar = $request->get('priceofcar');
+        $shop->priceofmotor = $request->get('priceofmotor');
+
         $shop->user_id = $user_id;
         $shop->save();
         $shopId = $shop->id;
 
-        foreach ($request->get('markers') as $marker) {
+        foreach ($request->get('dragMarkers') as $marker) {
             $shopMarker = new ShopMarker;
             $shopMarker->shop_id = $shopId;
             $shopMarker->latitude = $marker['lat'];
@@ -85,13 +90,16 @@ class ShopController extends Controller
             'end_time' => $request->get('shops')['end_time'],
             'service' => $request->get('shops')['service'],
             'contact' => $request->get('shops')['contact'],
+            'personel' => $request->get('shops')['personel'],
+            'priceofcar' => $request->get('shops')['priceofcar'],
+            'priceofmotor' => $request->get('shops')['priceofmotor'],
             'user_id' => $user_id
         ];
         Shop::query()->where('id', '=', $shopId)->update($shopData);
 
         $shopMarker = new ShopMarker;
         ShopMarker::query()->where('shop_id', '=', $shopId)->delete();
-        foreach ($request->get('markers') as $marker) {
+        foreach ($request->get('dragMarkers') as $marker) {
             $shopMarker->shop_id = $shopId;
             $shopMarker->latitude = $marker['lat'];
             $shopMarker->longitude = $marker['lng'];
@@ -116,10 +124,21 @@ class ShopController extends Controller
     public function delete($shopId)
     {
         $shopInfo = Shop::query()->where('id', '=', $shopId)->first();
+        // dd($shopInfo);
         Shop::query()->where('id','=', $shopId)->delete();
         ShopMarker::query()->where('shop_id', '=', $shopId)->delete();
         User::query()->where('id', '=', $shopInfo->user_id)->delete();
 
         return redirect()->to('/admin/shops');
+    }
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        // return response()->json($credentials, 200);
+        // dd($credentials);
+        if (Auth::attempt($credentials)) {
+            return response()->json(['message' => 'success'], 200);
+        }
+        return response()->json(['message' => 'error'], 500);
     }
 }

@@ -27,7 +27,7 @@ export default class LoginScreen extends Component {
     // else {
     //   
     // }
-    fetch('http://42035676.ngrok.io/api/user/add', {
+    fetch('https://9ec26a57.ngrok.io/api/user/login', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -36,37 +36,40 @@ export default class LoginScreen extends Component {
         body: JSON.stringify(this.state),
         })
         .then( response => {
-          console.log(response);
           if (response.status == 200) {
             this.props.navigation.navigate('Home')
-          } else {
+            Alert.alert('Welcome!.')
+          } 
+          else {
             Alert.alert('Error', 'Username/Password mismatch', [{
                   text: 'Okay'
                 }])
           }
         });
-        Alert.alert('Register successful.')
         // this.props.navigation.navigate('Home')
   }
   render() {
+    
+    console.disableYellowBox = true;
     return (
     //  Login Form
       <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
         }}>
-        <ImageBackground style={styles.imagebackground}>
+          
+        <ImageBackground style={styles.imagebackground} source={require('../assets/img/background1.png')} >
           <View style={styles.container}>
                <View style={styles.containertopRow}>
-                  <Image
-                    style={styles.imageTopRow}
-                    source={{
-                      uri:
-                        'https://cdn.pixabay.com/photo/2014/04/05/12/20/man-316917_960_720.jpg',
-                    }}
+                
+                  <Image  
+                  style={styles.imageTopRow} 
+                  source={require('../assets/img/logo.png')} 
                   />
-                  <Text style={styles.logotext}>
-                          VRShop
-                  </Text>
+
+                  <Image  
+                  style={styles.imagebuttomlogo} 
+                  source={require('../assets/img/name.png')} 
+                  />
               </View>
             <View style={styles.inputContainer}>
               <Image style={styles.inputIcon} source={{uri: 'https://img.icons8.com/ios-glyphs/30/000000/user-male.png'}}/>
@@ -133,11 +136,12 @@ const styles = StyleSheet.create({
       height:45,
       marginBottom:20,
       flexDirection: 'row',
-      alignItems:'center'
+      alignItems:'center',
+      borderWidth: 1
   },
   containertopRow: {
     marginTop: 30,
-    marginBottom:20,
+    marginBottom:20,  
     justifyContent: "center",
     alignItems: 'center',
     marginLeft: -20
@@ -155,9 +159,13 @@ const styles = StyleSheet.create({
       }
     })
   },
-  logotext: {
+  imagebuttomlogo:{
+    resizeMode: 'contain',
+    height: 50,
     marginTop: 10,
-    marginBottom:10,
+    width: 170,
+  },
+  logotext: {
     fontSize: 20,
     color: '#fff',
   },

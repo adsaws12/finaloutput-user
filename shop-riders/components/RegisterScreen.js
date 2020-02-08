@@ -13,9 +13,6 @@ import {
   Alert,
 } from 'react-native';
 
-import LoginScreen from '../components/LoginScreen';
-//import of image
-
 export default class RegisterScreen extends Component {
     state = {
         
@@ -30,7 +27,7 @@ export default class RegisterScreen extends Component {
     }
     addUserInfo() {
         console.log(this.state);
-        fetch('http://42035676.ngrok.io/api/user/add', {
+        fetch('https://9ec26a57.ngrok.io/api/user/add', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -46,96 +43,96 @@ export default class RegisterScreen extends Component {
           <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss();
             }}>  
-            <ImageBackground style={styles.imagebackground}>
-              <View style={styles.containertopRow}>
-                  <Image
-                    style={styles.imageTopRow}
-                    source={{
-                      uri:
-                        'https://cdn.pixabay.com/photo/2014/04/05/12/20/man-316917_960_720.jpg',
-                    }}
-                  />
-                  <Text style={[styles.textlabel, styles.registertext]}>
-                          Register Form
-                  </Text>
-              </View>
-              <View style={styles.container}>
-                  <View style={styles.form}>
-                      <Text style={styles.textlabel}>
-                          First Name
-                      </Text>
-                  </View>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                      placeholder="Enter your full name" 
-                      placeholderTextColor= "#bdbdbd"  
-                      underlineColorAndroid='transparent'
-                      onChangeText={(firstname) => this.setState({firstname})}/>
-                </View>
-
-                <View style={styles.form}>
-                    <Text style={styles.textlabel}>
-                        Last Name
-                    </Text>
-                </View>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                      placeholder="Enter your last name" 
-                      placeholderTextColor= "#bdbdbd"  
-                      underlineColorAndroid='transparent'
-                      onChangeText={(lastname) => this.setState({lastname})}/>
+            <ImageBackground style={styles.imagebackground} source={require('../assets/img/background1.png')} > 
+                <View style={styles.containertopRow}>
+                    <Image
+                      style={styles.imageTopRow}
+                      source={require('../assets/img/headerlogo.png')} 
+                    />
+                   
                 </View>
                 
-                <View style={styles.form}>
-                    <Text style={styles.textlabel}>
-                        Email
-                    </Text>
-                </View>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                      placeholder="Enter your e-mail address"  
-                      placeholderTextColor= "#bdbdbd" 
-                      underlineColorAndroid='transparent'
-                      onChangeText={(email) => this.setState({email})}/>
-                </View>
-                    
-                <View style={styles.form}>
-                    <Text style={styles.textlabel}>
-                        Password
-                    </Text>
-                </View>
-                <View style={styles.inputContainer}>
-                  <TextInput style={styles.inputs}
-                      placeholder="Enter password"
-                      placeholderTextColor= "#bdbdbd"
-                      secureTextEntry={true}
-                      underlineColorAndroid='transparent'
-                      onChangeText={(password) => this.setState({password})}/>
-                </View>
-                <View style={styles.buttonloginregister}>      
-                 <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.addUserInfo()}>
-                 <Text style={styles.loginText}>Create Account</Text>
-                  </TouchableHighlight>
-                    
+                <View style={styles.container}>
+                  
+                    <View style={styles.form}>
+                        <Text style={[styles.textlabel, styles.registertext]}>
+                                  Sign Up
+                        </Text>
+                        <Text style={styles.textlabel}>
+                            First Name
+                        </Text>
+                    </View>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Enter your full name" 
+                        placeholderTextColor= "#bdbdbd"  
+                        underlineColorAndroid='transparent'
+                        onChangeText={(firstname) => this.setState({firstname})}/>
+                  </View>
 
+                  <View style={styles.form}>
+                      <Text style={styles.textlabel}>
+                          Last Name
+                      </Text>
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Enter your last name" 
+                        placeholderTextColor= "#bdbdbd"  
+                        underlineColorAndroid='transparent'
+                        onChangeText={(lastname) => this.setState({lastname})}/>
+                  </View>
+                  
+                  <View style={styles.form}>
+                      <Text style={styles.textlabel}>
+                          Email
+                      </Text>
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Enter your e-mail address"  
+                        placeholderTextColor= "#bdbdbd" 
+                        underlineColorAndroid='transparent'
+                        onChangeText={(email) => this.setState({email})}/>
+                  </View>
+                      
+                  <View style={styles.form}>
+                      <Text style={styles.textlabel}>
+                          Password
+                      </Text>
+                  </View>
+                  <View style={styles.inputContainer}>
+                    <TextInput style={styles.inputs}
+                        placeholder="Enter password"
+                        placeholderTextColor= "#bdbdbd"
+                        secureTextEntry={true}
+                        underlineColorAndroid='transparent'
+                        onChangeText={(password) => this.setState({password})}/>
+                  </View>
+                  <View style={styles.buttonloginregister}>      
+                  <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={() => this.addUserInfo()}>
+                  <Text style={styles.loginText}>Create Account</Text>
+                    </TouchableHighlight>
+                  </View>
                 </View>
-              </View>
+              
             </ImageBackground>
           </TouchableWithoutFeedback>
         );
     }
 }
 const styles = StyleSheet.create({
+  
     imagebackground: {
         flex: 1,
         width: 400,
-        height: null,
-        backgroundColor: '#888'
+        height: null, 
       },
       registertext: {
-        marginTop: 10,
-        marginBottom:10,
-        fontSize: 20,
+        marginBottom:20,
+        fontSize: 22,
+        color: '#fa00fa',
+        fontWeight: 'bold'
       },
       containertopRow: {
         marginTop: 30,
@@ -145,17 +142,12 @@ const styles = StyleSheet.create({
         marginLeft: -20
       },
       imageTopRow: {
-        height: 80,
-        marginTop: 50,
-        width: 80,
-        ...Platform.select({
-          ios: {
-            borderRadius: 80 / 2
-          },
-          android: {
-            borderRadius: 80
-          }
-        })
+        // backgroundColor: '#000',
+        height: 100,
+        marginTop: 20,
+        width: 200,
+        marginBottom: 15,
+        resizeMode: 'stretch',
       },
       container: {
         marginBottom: 150,
@@ -169,20 +161,18 @@ const styles = StyleSheet.create({
         marginLeft: 50,
       },
       inputContainer: {
-        borderBottomWidth: 1,
         width:320,
         height:45,
         marginBottom:35,
         flexDirection: 'row',
         alignItems:'center',
-        borderBottomColor: '#fff',
       },
       form:{
         marginLeft:15,
         fontSize: 30,
       },
       textlabel : {
-        color: '#fff',
+        color: "violet",
         fontSize: 15,
         fontWeight: "bold"
       },
@@ -193,10 +183,11 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         flex:1,
         marginVertical:    8,
+        borderBottomColor: '#737373',
         borderBottomWidth: StyleSheet.hairlineWidth,
         color: '#fff',
         fontSize: 20,
-        // fontWeight: 'bold'
+        fontWeight: 'bold'        
       },
       inputIcon:{
         width:30,

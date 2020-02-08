@@ -1,9 +1,13 @@
 import React from "react";
-import {Button, Dimensions, StyleSheet, View, Text} from "react-native";
+import {Button, Dimensions, StyleSheet, View, Image} from "react-native";
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 
 class GotoScreen extends React.Component {
+    static navigationOptions = {  
+        headerTitle:(<Image style={{width:100, height: 100, resizeMode: 'contain', marginLeft: '60%'}} source={require('../assets/img/headerlogo.png')}/>), 
+        headerTitleStyle:{textAlign: 'center',alignSelf:'center'}, 
+        };  
     state = {
         ready: false,
     }
@@ -13,12 +17,14 @@ class GotoScreen extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         if (this.state.ready) {
-            console.log(this.props.navigation.state.params);
+            // console.log(this.props.navigation.state.params);
             mapview = <MapView
                 style={styles.mapStyle}
                 initialRegion={this.props.navigation.state.params.currentLoc}
                 showsUserLocation={true}
+                followUserLocation={true}
             >
                 <MapView.Marker
                     coordinate={{

@@ -4,8 +4,9 @@ import {StyleSheet, View, Dimensions, Platform, Alert, Text, Button, ScrollView}
 import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import DetailScreen from './components/DetailScreen';
-import ProductScreen from './components/ProductScreen';
+// import ProductScreen from './components/ProductScreen';
 import GotoScreen from './components/GotoScreen';
+import RequestScreen from './components/RequestScreen';
 import LoginScreen from './components/LoginScreen';
 import HomeScreen from './components/HomeScreen';
 import RegisterScreen from './components/RegisterScreen';
@@ -14,8 +15,9 @@ const RootStack = createStackNavigator(
     {
         Home:     HomeScreen,
         Details:  DetailScreen,
-        Products: ProductScreen,
+        // Products: ProductScreen,
         Goto: GotoScreen,
+        Request: RequestScreen,
         Login: LoginScreen,
         Register : RegisterScreen
     },

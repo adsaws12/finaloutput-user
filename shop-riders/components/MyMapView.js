@@ -93,9 +93,11 @@ class MyMapView extends React.Component {
 
         const {region}                          = this.state;
         const {children, renderMarker, markers} = this.props;
-
+        
         return (
+            
             <MapView
+            
                 showsUserLocation
                 ref={map => {
                     this.map = map

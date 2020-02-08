@@ -1,12 +1,16 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import {StyleSheet, View, Dimensions, Platform, Alert, Text, Button, ScrollView} from 'react-native';
+import {StyleSheet, View, Dimensions, Platform, Alert, Image, TouchableHighlight, Text} from 'react-native';
 
 
 const LATITUDE_DELTA  = 0.01;
 const LONGITUDE_DELTA = 0.01;
 
 class HomeScreen extends React.Component {
+    static navigationOptions = {  
+        headerTitle:(<Image style={{width:100, height: 100, resizeMode: 'contain', marginLeft: '60%'}} source={require('../assets/img/headerlogo.png')}/>), 
+        headerTitleStyle:{textAlign: 'center',alignSelf:'center'}, 
+        };  
     state = {
         region: {
             latitude:       37.78825,
@@ -34,13 +38,15 @@ class HomeScreen extends React.Component {
     }
 
     getMarkers() {
-        fetch('http://42035676.ngrok.io/api/shop/markers', {
+        fetch('https://9ec26a57.ngrok.io/api/shop/markers', {
             method: 'GET',
         })
             .then(response => response.json())
             .then(json => {
+                // console.log(json)
                 let markers = [];
                 for (let i = 0; i < json.length; i++) {
+                    // console.log('asd')
                     markers.push({
                         shop_id:   json[i].shop_info.id,
                         latitude:  parseFloat(json[i].latitude),
@@ -108,8 +114,10 @@ class HomeScreen extends React.Component {
         }
         return markers;
     }
+    
 
     render() {
+        
         if (this.state.ready) {
             mapview = <MapView
                 style={styles.mapStyle}
@@ -122,17 +130,17 @@ class HomeScreen extends React.Component {
             mapview = null;
         }
         return (
-            <View style={styles.container}>
+            <View style={styles.container}>  
                 {mapview}
             </View>
         );
     }
 }
 
-
 const styles = StyleSheet.create({
     container:      {
         flex:            1,
+        
         backgroundColor: '#fff',
         padding:         10,
         justifyContent:  'center',
@@ -141,55 +149,7 @@ const styles = StyleSheet.create({
         width:  Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
-    nameshop:       {
-        color:             'black',
-        fontWeight:        'bold',
-        fontSize:          20,
-        marginVertical:    8,
-        borderBottomColor: '#737373',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-    },
-    label:          {
-        color:           'violet',
-        fontWeight:      'bold',
-        fontSize:        15,
-        marginBottom:    5,
-        textShadowColor: '#585858',
-    },
-    buttonView:     {
-        flex:           1,
-        flexDirection:  'row',
-        justifyContent: 'space-around',
-    },
-    requestButton:  {
-        marginLeft: 20,
-    },
-    pricerangeflex: {
-        flex:           1,
-        flexDirection:  'row',
-        justifyContent: 'space-around',
-    },
-    lineright:      {
-        borderRightWidth: 2
-    },
-    viewheader:     {
-        backgroundColor: '#C100C1',
-        height:          60,
-        width:           '90%',
-        marginTop:       0,
-        marginRight:     'auto',
-        marginBottom:    0,
-        marginLeft:      'auto',
-        borderRadius:    10,
-    },
-    textHeader:     {
-        fontSize:       35,
-        alignItems:     'center',
-        justifyContent: 'center',
-        padding:        10,
-        fontWeight:     'bold',
-        color:          '#fff',
-    },
+   
 });
 
 

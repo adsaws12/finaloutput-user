@@ -1983,6 +1983,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
@@ -1990,6 +2007,8 @@ __webpack_require__.r(__webpack_exports__);
       this.currentPlace = place;
     },
     addMarker: function addMarker() {
+      e.preventDefault();
+
       if (this.currentPlace) {
         var marker = {
           lat: this.currentPlace.geometry.location.lat(),
@@ -2010,6 +2029,13 @@ __webpack_require__.r(__webpack_exports__);
           lng: position.coords.longitude
         };
       });
+    },
+    updateCoordinates: function updateCoordinates(location) {
+      var coordinates = {
+        lat: location.latLng.lat(),
+        lng: location.latLng.lng()
+      };
+      this.form.dragMarkers.push(coordinates);
     },
     editShop: function editShop(e) {
       var _this2 = this;
@@ -2038,6 +2064,9 @@ __webpack_require__.r(__webpack_exports__);
     this.form.shops.service = this.shopinfo.service;
     this.form.shops.start_time = this.shopinfo.start_time;
     this.form.shops.end_time = this.shopinfo.end_time;
+    this.form.shops.personel = this.shopinfo.personel;
+    this.form.shops.priceofcar = this.shopinfo.priceofcar;
+    this.form.shops.priceofmotor = this.shopinfo.priceofmotor;
     var markers = [];
     this.shopinfo.shop_markers.forEach(function (data) {
       var mark = {
@@ -2077,7 +2106,10 @@ __webpack_require__.r(__webpack_exports__);
           start_time: null,
           end_time: null,
           service: null,
-          contact: null
+          contact: null,
+          personel: null,
+          priceofcar: null,
+          priceofmotor: null
         }
       }
     };
@@ -2256,13 +2288,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     setPlace: function setPlace(place) {
       this.currentPlace = place;
     },
-    addMarker: function addMarker() {
+    addMarker: function addMarker(e) {
+      e.preventDefault();
+
       if (this.currentPlace) {
         var marker = {
           lat: this.currentPlace.geometry.location.lat(),
@@ -2297,6 +2347,13 @@ __webpack_require__.r(__webpack_exports__);
           location.href = '/admin/shop/add';
         }, 1000);
       });
+    },
+    updateCoordinates: function updateCoordinates(location) {
+      var coordinates = {
+        lat: location.latLng.lat(),
+        lng: location.latLng.lng()
+      };
+      this.form.dragMarkers.push(coordinates);
     }
   },
   mounted: function mounted() {
@@ -2321,10 +2378,14 @@ __webpack_require__.r(__webpack_exports__);
         name: null,
         description: null,
         markers: [],
+        dragMarkers: [],
         email: null,
         password: null,
         start_time: null,
-        end_time: null
+        end_time: null,
+        personel: null,
+        priceofcar: null,
+        priceofmotor: null
       }
     };
   },
@@ -39499,6 +39560,102 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-5" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Personel")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.shops.personel,
+                      expression: "form.shops.personel"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "personel" },
+                  domProps: { value: _vm.form.shops.personel },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form.shops, "personel", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a car")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.shops.priceofcar,
+                      expression: "form.shops.priceofcar"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofcar" },
+                  domProps: { value: _vm.form.shops.priceofcar },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.shops,
+                        "priceofcar",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a motorcyle")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.shops.priceofmotor,
+                      expression: "form.shops.priceofmotor"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofmotor" },
+                  domProps: { value: _vm.form.shops.priceofmotor },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.shops,
+                        "priceofmotor",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
               _c(
                 "div",
@@ -39547,7 +39704,8 @@ var render = function() {
                         on: {
                           click: function($event) {
                             _vm.center = m
-                          }
+                          },
+                          dragend: _vm.updateCoordinates
                         }
                       })
                     }),
@@ -39971,6 +40129,94 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-5" }, [
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Personel")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.personel,
+                      expression: "form.personel"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "personel" },
+                  domProps: { value: _vm.form.personel },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "personel", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a car")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.priceofcar,
+                      expression: "form.priceofcar"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofcar" },
+                  domProps: { value: _vm.form.priceofcar },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "priceofcar", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a motorcyle")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.priceofmotor,
+                      expression: "form.priceofmotor"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofmotor" },
+                  domProps: { value: _vm.form.priceofmotor },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "priceofmotor", $event.target.value)
+                    }
+                  }
+                })
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
               _c(
                 "div",
@@ -40016,11 +40262,7 @@ var render = function() {
                       return _c("gmap-marker", {
                         key: index,
                         attrs: { position: m, draggable: true },
-                        on: {
-                          click: function($event) {
-                            _vm.center = m
-                          }
-                        }
+                        on: { dragend: _vm.updateCoordinates }
                       })
                     }),
                     1
@@ -55155,8 +55397,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/melvinangelojabonillo/Documents/Work/react_nav/shop-riders-web/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/melvinangelojabonillo/Documents/Work/react_nav/shop-riders-web/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\thesis\react_nav\shop-riders-web\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\thesis\react_nav\shop-riders-web\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

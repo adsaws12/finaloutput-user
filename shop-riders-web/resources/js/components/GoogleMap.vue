@@ -76,6 +76,22 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Personel</label>
+                                <input type="text" class="form-control" name="personel" v-model="form.personel">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a car</label>
+                                <input type="text" class="form-control" name="priceofcar" v-model="form.priceofcar">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a motorcyle</label>
+                                <input type="text" class="form-control" name="priceofmotor" v-model="form.priceofmotor">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div style="width:700px">
                                 <div>
@@ -100,8 +116,8 @@
                                             :key="index"
                                             v-for="(m, index) in form.markers"
                                             :position="m"
-                                            @click="center=m"
                                             :draggable="true"
+                                            @dragend="updateCoordinates"
                                     ></gmap-marker>
                                 </gmap-map>
                             </div>
@@ -123,7 +139,8 @@
             setPlace(place) {
                 this.currentPlace = place;
             },
-            addMarker() {
+            addMarker(e) {
+                e.preventDefault();
                 if (this.currentPlace) {
                     const marker = {
                         lat: this.currentPlace.geometry.location.lat(),
@@ -158,8 +175,14 @@
                             location.href = '/admin/shop/add';
                         }, 1000);
                     });
-
-            }
+            },
+            updateCoordinates(location) {
+                const coordinates = {
+                    lat: location.latLng.lat(),
+                    lng: location.latLng.lng(),
+                    };
+                    this.form.dragMarkers.push(coordinates);
+            },
         },
         mounted() {
             this.geolocate();
@@ -179,10 +202,14 @@
                     name:        null,
                     description: null,
                     markers:     [],
+                    dragMarkers: [],
                     email: null,
                     password: null,
                     start_time: null,
-                    end_time: null
+                    end_time: null,
+                    personel: null,
+                    priceofcar: null,
+                    priceofmotor: null,
                 }
             }
         },

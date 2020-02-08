@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Shop;
+use App\ShopMarker;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -22,11 +25,16 @@ class UserController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
+        // return response()->json($credentials, 200);
+        // dd($credentials);
         if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'success'], '200');
+            $userInfo = Auth::user();
+            
+            $data['shop'] = Shop::where('user_id', $userInfo->id)->with('userInfo', 'shopMarkers')->first();
+            $data['user'] = $userInfo;
+            
+            return response()->json(['message' => 'success', 'data' => $data], 200);
         }
-        
         return response()->json(['message' => 'error'], 500);
     }
 }

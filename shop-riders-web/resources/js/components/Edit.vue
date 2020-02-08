@@ -76,6 +76,22 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Personel</label>
+                                <input type="text" class="form-control" name="personel" v-model="form.shops.personel">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a car</label>
+                                <input type="text" class="form-control" name="priceofcar" v-model="form.shops.priceofcar">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a motorcyle</label>
+                                <input type="text" class="form-control" name="priceofmotor" v-model="form.shops.priceofmotor">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div style="width:700px">
                                 <div>
@@ -102,6 +118,7 @@
                                             :position="m"
                                             @click="center=m"
                                             :draggable="true"
+                                            @dragend="updateCoordinates"
                                     ></gmap-marker>
                                 </gmap-map>
                             </div>
@@ -124,6 +141,7 @@
                 this.currentPlace = place;
             },
             addMarker() {
+                e.preventDefault();
                 if (this.currentPlace) {
                     const marker = {
                         lat: this.currentPlace.geometry.location.lat(),
@@ -142,6 +160,13 @@
                         lng: position.coords.longitude
                     };
                 });
+            },
+             updateCoordinates(location) {
+                const coordinates = {
+                    lat: location.latLng.lat(),
+                    lng: location.latLng.lng(),
+                    };
+                    this.form.dragMarkers.push(coordinates);
             },
             editShop(e) {
                 e.preventDefault();
@@ -171,6 +196,9 @@
             this.form.shops.service = this.shopinfo.service;
             this.form.shops.start_time = this.shopinfo.start_time;
             this.form.shops.end_time = this.shopinfo.end_time;
+            this.form.shops.personel = this.shopinfo.personel;
+            this.form.shops.priceofcar = this.shopinfo.priceofcar;
+            this.form.shops.priceofmotor = this.shopinfo.priceofmotor;
 
             const markers = [];
             this.shopinfo.shop_markers.forEach(function (data) {
@@ -209,6 +237,9 @@
                         end_time: null,
                         service: null,
                         contact: null,
+                        personel: null,
+                        priceofcar: null,
+                        priceofmotor: null,
                     }
                 }
             }

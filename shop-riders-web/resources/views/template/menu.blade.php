@@ -41,16 +41,9 @@
     </ul>
 </div>
 
- <!--   Core JS Files   -->
+   <!-- Core JS Files   -->
  <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   
 
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
-
-    });
-  </script>
