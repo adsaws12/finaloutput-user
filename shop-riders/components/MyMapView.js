@@ -39,7 +39,6 @@ class MyMapView extends React.Component {
     }
 
     componentDidMount() {
-        console.log('Component did mount');
         this.getCurrentPosition();
     }
 
@@ -81,13 +80,6 @@ class MyMapView extends React.Component {
         }
     };
 
-    onRegionChange = (region) => {
-        console.log('onRegionChange', region);
-    };
-
-    onRegionChangeComplete = (region) => {
-        console.log('onRegionChangeComplete', region);
-    };
 
     render() {
 

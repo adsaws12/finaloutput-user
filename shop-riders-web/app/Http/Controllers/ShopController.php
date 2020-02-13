@@ -45,6 +45,8 @@ class ShopController extends Controller
         $shop->personel = $request->get('personel');
         $shop->priceofcar = $request->get('priceofcar');
         $shop->priceofmotor = $request->get('priceofmotor');
+        $shop->priceofcarvul = $request->get('priceofcarvul');
+        $shop->priceofmotorvul = $request->get('priceofmotorvul');
 
         $shop->user_id = $user_id;
         $shop->save();
@@ -93,13 +95,16 @@ class ShopController extends Controller
             'personel' => $request->get('shops')['personel'],
             'priceofcar' => $request->get('shops')['priceofcar'],
             'priceofmotor' => $request->get('shops')['priceofmotor'],
+            'priceofcarvul' => $request->get('shops')['priceofcarvul'],
+            'priceofmotorvul' => $request->get('shops')['priceofmotorvul'],
             'user_id' => $user_id
         ];
         Shop::query()->where('id', '=', $shopId)->update($shopData);
 
         $shopMarker = new ShopMarker;
         ShopMarker::query()->where('shop_id', '=', $shopId)->delete();
-        foreach ($request->get('dragMarkers') as $marker) {
+        $markers = empty($request->get('dragMarkers')) ? $request->get('markers') : $request->get('dragMarkers');
+        foreach ($markers as $marker) {
             $shopMarker->shop_id = $shopId;
             $shopMarker->latitude = $marker['lat'];
             $shopMarker->longitude = $marker['lng'];
@@ -137,6 +142,12 @@ class ShopController extends Controller
         // return response()->json($credentials, 200);
         // dd($credentials);
         if (Auth::attempt($credentials)) {
+            $token = Str::random(60);
+
+            $userInfo->forceFill([
+                'api_token' => hash('sha256', $token),
+            ])->save();
+            
             return response()->json(['message' => 'success'], 200);
         }
         return response()->json(['message' => 'error'], 500);

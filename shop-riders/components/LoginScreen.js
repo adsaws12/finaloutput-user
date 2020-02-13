@@ -14,10 +14,17 @@ import {
 } from 'react-native';
 
 export default class LoginScreen extends Component {
-  state = {email:"",password:""}
+  state = {email:"",password:"", token:""}
   
   static navigationOptions = {
     header: null
+  }
+  componentDidMount() {
+    if (this.token) {
+      this.props.navigation.navigate('Home', {
+        token: json.data.user.api_token
+      })
+    }
   }
   checkLogin() {
     // const {email,password } = this.state
@@ -27,7 +34,7 @@ export default class LoginScreen extends Component {
     // else {
     //   
     // }
-    fetch('https://9ec26a57.ngrok.io/api/user/login', {
+    fetch('https://ef005894.ngrok.io/api/user/login', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -35,17 +42,31 @@ export default class LoginScreen extends Component {
         },
         body: JSON.stringify(this.state),
         })
-        .then( response => {
-          if (response.status == 200) {
-            this.props.navigation.navigate('Home')
-            Alert.alert('Welcome!.')
-          } 
-          else {
-            Alert.alert('Error', 'Username/Password mismatch', [{
-                  text: 'Okay'
-                }])
-          }
-        });
+        .then(response => response.json())
+            .then(json => {
+              if (json.message === 'error') {
+                 Alert.alert('Wrong Email/Password')
+              } else {
+                this.setState({token: json.data.user.api_token})
+                this.props.navigation.navigate('Home', {
+                  token: json.data.user.api_token
+                })
+              }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        // .then( response => {
+        //   console.log(response.json());
+        //   if (response.status == 200) {
+        //     
+        //   } 
+        //   else {
+        //     Alert.alert('Error', 'Username/Password mismatch', [{
+        //           text: 'Okay'
+        //         }])
+        //   }
+        // });
         // this.props.navigation.navigate('Home')
   }
   render() {

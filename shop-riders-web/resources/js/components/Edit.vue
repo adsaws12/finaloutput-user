@@ -82,12 +82,20 @@
                                 <input type="text" class="form-control" name="personel" v-model="form.shops.personel">
                             </div>
                             <div class="form-group">
-                                <label class="bmd-label-floating">Price range for a car</label>
+                                <label class="bmd-label-floating">Price range for a car for Repair</label>
                                 <input type="text" class="form-control" name="priceofcar" v-model="form.shops.priceofcar">
                             </div>
                             <div class="form-group">
-                                <label class="bmd-label-floating">Price range for a motorcyle</label>
+                                <label class="bmd-label-floating">Price range for a motorcyle for Repair</label>
                                 <input type="text" class="form-control" name="priceofmotor" v-model="form.shops.priceofmotor">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a car for Vulcanizing</label>
+                                <input type="text" class="form-control" name="priceofcarvul" v-model="form.shops.priceofcarvul">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a motorcyle for Vulcanizing</label>
+                                <input type="text" class="form-control" name="priceofmotorvul" v-model="form.shops.priceofmotorvul">
                             </div>
                         </div>
                     </div>
@@ -103,7 +111,7 @@
                                                 style="width: 500px;"
                                         >
                                         </gmap-autocomplete>
-                                        <button @click="addMarker" class="btn btn-primary" type="button">Add</button>
+                                        <button @click="addMarker" class="btn btn-primary" type="button">Add Marker</button>
                                     </label>
                                 </div>
                                 <br>
@@ -140,7 +148,7 @@
             setPlace(place) {
                 this.currentPlace = place;
             },
-            addMarker() {
+            addMarker(e) {
                 e.preventDefault();
                 if (this.currentPlace) {
                     const marker = {
@@ -149,10 +157,10 @@
                     };
                     this.form.markers.push(marker);
                     this.places.push(this.currentPlace);
-                    this.center       = marker;
+                    this.center = marker;
                     this.currentPlace = null;
                 }
-            },
+            },         
             geolocate: function () {
                 navigator.geolocation.getCurrentPosition(position => {
                     this.center = {
@@ -172,7 +180,7 @@
                 e.preventDefault();
                 axios.post('/admin/shop/edit/' + this.shopinfo.id, this.form)
                     .then(() => {
-                        toastr.success('Successfully created');
+                         toastr.success('Successfully Edit');
                         setTimeout(() => {
                             location.href = '/admin/shops';
                         }, 1000);
@@ -180,7 +188,7 @@
                     .catch(error => {
                         toastr.success('Something went wrong');
                         setTimeout(() => {
-                            location.href = '/admin/shop/edit/' + this.shopinfo.id;
+                           location.href = '/admin/shop/edit/' + this.shopinfo.id;
                         }, 1000);
                     });
 
@@ -199,6 +207,8 @@
             this.form.shops.personel = this.shopinfo.personel;
             this.form.shops.priceofcar = this.shopinfo.priceofcar;
             this.form.shops.priceofmotor = this.shopinfo.priceofmotor;
+            this.form.shops.priceofcarvul = this.shopinfo.priceofcarvul;
+            this.form.shops.priceofmotorvul = this.shopinfo.priceofmotorvul;
 
             const markers = [];
             this.shopinfo.shop_markers.forEach(function (data) {
@@ -225,6 +235,7 @@
                 opening_time: workingTime,
                 form:         {
                     markers:     [],
+                    dragMarkers: [],
                     users: {
                         email: null,
                         password: null,
@@ -240,6 +251,8 @@
                         personel: null,
                         priceofcar: null,
                         priceofmotor: null,
+                        priceofcarvul: null,
+                        priceofmotorvul: null
                     }
                 }
             }

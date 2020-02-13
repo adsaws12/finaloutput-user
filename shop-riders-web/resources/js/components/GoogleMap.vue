@@ -82,12 +82,20 @@
                                 <input type="text" class="form-control" name="personel" v-model="form.personel">
                             </div>
                             <div class="form-group">
-                                <label class="bmd-label-floating">Price range for a car</label>
+                                <label class="bmd-label-floating">Price range for a car for Repair</label>
                                 <input type="text" class="form-control" name="priceofcar" v-model="form.priceofcar">
                             </div>
                             <div class="form-group">
-                                <label class="bmd-label-floating">Price range for a motorcyle</label>
+                                <label class="bmd-label-floating">Price range for a motorcyle for Repair</label>
                                 <input type="text" class="form-control" name="priceofmotor" v-model="form.priceofmotor">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a car for Vulcanizing</label>
+                                <input type="text" class="form-control" name="priceofcarvul" v-model="form.priceofcarvul">
+                            </div>
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Price range for a motorcyle for Vulcanizing</label>
+                                <input type="text" class="form-control" name="priceofmotorvul" v-model="form.priceofmotorvul">
                             </div>
                         </div>
                     </div>
@@ -210,6 +218,8 @@
                     personel: null,
                     priceofcar: null,
                     priceofmotor: null,
+                    priceofmotorvul: null,
+                    priceofcarvul: null,
                 }
             }
         },

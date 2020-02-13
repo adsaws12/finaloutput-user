@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  Platform, 
+  ScrollView, 
   Image, 
   Text, 
   View, 
@@ -26,8 +26,7 @@ export default class RegisterScreen extends Component {
       header: null
     }
     addUserInfo() {
-        console.log(this.state);
-        fetch('https://9ec26a57.ngrok.io/api/user/add', {
+        fetch('https://ef005894.ngrok.io/api/user/add', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -44,6 +43,7 @@ export default class RegisterScreen extends Component {
             Keyboard.dismiss();
             }}>  
             <ImageBackground style={styles.imagebackground} source={require('../assets/img/background1.png')} > 
+              <ScrollView>
                 <View style={styles.containertopRow}>
                     <Image
                       style={styles.imageTopRow}
@@ -115,7 +115,7 @@ export default class RegisterScreen extends Component {
                     </TouchableHighlight>
                   </View>
                 </View>
-              
+              </ScrollView>
             </ImageBackground>
           </TouchableWithoutFeedback>
         );

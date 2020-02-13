@@ -17,9 +17,7 @@ class GotoScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         if (this.state.ready) {
-            // console.log(this.props.navigation.state.params);
             mapview = <MapView
                 style={styles.mapStyle}
                 initialRegion={this.props.navigation.state.params.currentLoc}

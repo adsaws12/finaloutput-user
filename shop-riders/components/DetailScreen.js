@@ -16,6 +16,8 @@ class DetailScreen extends React.Component {
             personel: null,
             priceofcar: null,
             priceofmotor: null,
+            priceofcarvul: null,
+            priceofmotorvul: null,
         },
     }
 
@@ -25,7 +27,8 @@ class DetailScreen extends React.Component {
 
     getShopInfo() {
         const shopId = this.props.navigation.state.params.shop_id;
-        fetch('https://9ec26a57.ngrok.io/api/shop/' + shopId, {
+        const token = this.props.navigation.state.params.token;
+        fetch('https://ef005894.ngrok.io/api/shop/' + shopId + '?api_token=' + token, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -38,7 +41,7 @@ class DetailScreen extends React.Component {
     }
 
     render() {
-        console.log(this.state)
+
         const {navigation} = this.props;
         return (
                 <ImageBackground style={styles.imagebackground} source={require('../assets/img/background1.png')} >
@@ -53,13 +56,32 @@ class DetailScreen extends React.Component {
                             <Text style={styles.nameshop}>{this.state.shopInfo.service}</Text>
                             <Text style={styles.label}>Contact Number:</Text>
                             <Text style={styles.nameshop}>{this.state.shopInfo.contact}</Text>
-                            <Text style={styles.label}>Opening time and closing:</Text>
+                            <Text style={styles.label}>Opening and Closing time:</Text>
                             <Text style={styles.nameshop}>{this.state.shopInfo.start_time} ~ {this.state.shopInfo.end_time}</Text>
                             <Text style={styles.label}>Number of personel:</Text>
                             <Text style={styles.nameshop}>{this.state.shopInfo.personel}</Text>
-                            <Text style={styles.label}>Price range of Repair and Vulcanizing in Car:</Text>
-                            
-                            <Text style={styles.nameshop}>{this.state.shopInfo.priceofcar}</Text>
+
+                            <View style={styles.textpricerange}>
+                                <View style={styles.marginforprice}>
+                                    <Text style={styles.label}>Price range of Repair in Car:</Text>
+                                </View>
+                                <View style={styles.marginforprice}>
+                                    <Text style={styles.label}>Price range of Vulcanizing in Car:</Text>
+                                </View>
+                            </View>
+                            <View style={styles.pricerangeflex}>
+                                <View>
+                                    <View style={styles.flexprice}>
+                                        <Text style={styles.nameshop}>{this.state.shopInfo.priceofcar}</Text>
+                                    </View>
+                                </View>
+                                <Text style={styles.lineright}></Text>
+                                <View>
+                                    <View style={styles.flexprice}>
+                                        <Text style={styles.nameshop}>{this.state.shopInfo.priceofcarvul}</Text>
+                                    </View>
+                                </View>
+                            </View>
                             {/* <View style={styles.pricerangeflex}>
                                 <View>
                                 </View>
@@ -68,23 +90,36 @@ class DetailScreen extends React.Component {
                                     <Text style={styles.nameshop}>12312</Text>
                                 </View>
                             </View> */}
-                            <Text style={styles.label}>Price range of Repair and Vulcanizing in MotorBike:</Text>
-                            <Text style={styles.nameshop}>{this.state.shopInfo.priceofmotor}</Text>
-                            {/* <View style={styles.pricerangeflex}>
+                            <View style={styles.textpricerange}>
+                                <View style={styles.marginforprice}>
+                                    <Text style={styles.label}>Price range of Repair in MotorBike:</Text>
+                                </View>
+                                <View style={styles.marginforprice}>
+                                    <Text style={styles.label}>Price range of Vulcanizing in MotorBike:</Text>
+                                </View>
+                            </View>
+                            <View style={styles.pricerangeflex}>
                                 <View>
+                                    <View style={styles.flexprice}>
+                                        <Text style={styles.nameshop}>{this.state.shopInfo.priceofmotor}</Text>
+                                    </View>
                                 </View>
                                 <Text style={styles.lineright}></Text>
                                 <View>
-                                    <Text style={styles.nameshop}>12312</Text>
+                                    
+                                    <View style={styles.flexprice}>
+                                        <Text style={styles.nameshop}>{this.state.shopInfo.priceofmotorvul}</Text>
+                                    </View>
                                 </View>
-                            </View> */}
+                            </View>
                         </View>
                         <View style={styles.buttonView}>
                             <Button
                                 title="Request"
                                 onPress={() => this.props.navigation.navigate('Request',{
                                     currentLoc: this.props.navigation.state.params.currentPos,
-                                    shopId: this.props.navigation.state.params.shop_id
+                                    shopId: this.props.navigation.state.params.shop_id,
+                                    token: this.props.navigation.state.params.token
                                 })}
                             />
                             {/* <Button
@@ -99,7 +134,8 @@ class DetailScreen extends React.Component {
                                 color="green"
                                 onPress={() => this.props.navigation.navigate('Goto', {
                                     currentLoc: this.props.navigation.state.params.currentPos,
-                                    goToLoc: this.props.navigation.state.params.goToPos
+                                    goToLoc: this.props.navigation.state.params.goToPos,
+                                    token: this.props.navigation.state.params.token
                                 })}
                             />
                         </View>
@@ -115,6 +151,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
       },
+    marginforprice :{width: 175},
     container:      {
         flex:            1,
         backgroundColor: '#fff',
@@ -122,6 +159,10 @@ const styles = StyleSheet.create({
         justifyContent:  'center',
         backgroundColor: 'transparent',
         height: null
+    },
+    flexprice: {
+        alignItems: 'center',
+        width: 170
     },
     mapStyle:       {
         width:  Dimensions.get('window').width,
@@ -147,6 +188,11 @@ const styles = StyleSheet.create({
         flexDirection:  'row',
         justifyContent: 'space-around',
     },
+    textpricerange: {
+        flex:           1,
+        flexDirection:  'row',
+        justifyContent: 'space-between',
+    },
     requestButton:  {
         marginLeft: 20,
     },
@@ -156,24 +202,25 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
     },
     lineright:      {
-        borderRightWidth: 2
+        borderRightWidth: 2,
+        borderRightColor: '#fff'
     },
     viewheader:     {
-        marginTop: 5,
-        backgroundColor: '#b800b8',
+        flexDirection: 'column',
+        alignSelf: 'center',
+        marginTop: 10,
         height:          60,
-        width:           '80%',
-        marginLeft: '5%',
         alignItems: 'center',
-        borderRadius: 10
     },
     textHeader:     {
         fontSize:       35,
+        backgroundColor: '#b800b8',
         alignItems:     'center',
         justifyContent: 'center',
         padding:        10,
         fontWeight:     'bold',
         color:          '#fff',
+        borderRadius: 10
     },
 });
 

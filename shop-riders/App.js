@@ -13,18 +13,36 @@ import RegisterScreen from './components/RegisterScreen';
 
 const RootStack = createStackNavigator(
     {
+        
+        Login: LoginScreen,
         Home:     HomeScreen,
         Details:  DetailScreen,
         // Products: ProductScreen,
         Goto: GotoScreen,
         Request: RequestScreen,
-        Login: LoginScreen,
         Register : RegisterScreen
     },
-    {
-        initialRouteName: 'Login',
-    }
+    // {
+    //     initialRouteName: 'Login',
+    // }
 );
+
+// const RootNavLogged = StackNavigator({
+//     Home:     HomeScreen,
+//     Details:  DetailScreen,
+//     // Products: ProductScreen,
+//     Goto: GotoScreen,
+//     Request: RequestScreen,
+//     Register : RegisterScreen
+//  },{
+//     initialRouteName : 'Home'
+//  });
+
+//  const RootStack = StackNavigator({
+//     Login: LoginScreen,
+//  },{
+//     initialRouteName : 'Login'
+//  });
 
 const AppContainer = createAppContainer(RootStack);
 

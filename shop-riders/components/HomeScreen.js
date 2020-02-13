@@ -19,7 +19,7 @@ class HomeScreen extends React.Component {
             longitudeDelta: LONGITUDE_DELTA,
         },
         ready:  false,
-        marker: []
+        marker: [],
     }
 
     componentDidMount() {
@@ -38,15 +38,15 @@ class HomeScreen extends React.Component {
     }
 
     getMarkers() {
-        fetch('https://9ec26a57.ngrok.io/api/shop/markers', {
+        const token = this.props.navigation.state.params.token
+        fetch('https://ef005894.ngrok.io/api/shop/markers?api_token=' + token, {
             method: 'GET',
         })
             .then(response => response.json())
             .then(json => {
-                // console.log(json)
                 let markers = [];
                 for (let i = 0; i < json.length; i++) {
-                    // console.log('asd')
+                   
                     markers.push({
                         shop_id:   json[i].shop_info.id,
                         latitude:  parseFloat(json[i].latitude),
@@ -84,7 +84,7 @@ class HomeScreen extends React.Component {
                             }
                             break;
                         default:
-                            Alert.alert("", "Error al detectar tu locación");
+                            Alert.alert("", "Way Mapa");
                     }
                 }
             );
@@ -107,14 +107,14 @@ class HomeScreen extends React.Component {
                 onCalloutPress={() => this.props.navigation.navigate('Details', {
                     shop_id: marker.shop_id,
                     currentPos: this.state.region,
-                    goToPos: marker
+                    goToPos: marker,
+                    token: this.props.navigation.state.params.token
                 })}
                 key={marker.shop_id}
             />)
         }
         return markers;
     }
-    
 
     render() {
         
@@ -148,6 +148,8 @@ const styles = StyleSheet.create({
     mapStyle:       {
         width:  Dimensions.get('window').width,
         height: Dimensions.get('window').height,
+        flex: 1,
+        ...StyleSheet.absoluteFillObject
     },
    
 });

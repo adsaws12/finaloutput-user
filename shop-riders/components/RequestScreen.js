@@ -29,8 +29,8 @@ export default class RequestScreen extends Component {
       };  
      
       sendRequest() {
-     
-        fetch('https://9ec26a57.ngrok.io/api/user/userrequest', {
+        const token = this.props.navigation.state.params.token;
+        fetch('https://ef005894.ngrok.io/api/user/userrequest?api_token=' + token, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -40,22 +40,8 @@ export default class RequestScreen extends Component {
             })
             .then(response => response.json())
             .then(json => {
-                // console.log(json);
             })
 
-            // .then( response => {
-            //     console.log(response.json())
-            // //   if (response.status == 200) {
-            // //     this.props.navigation.navigate('Details')
-            // //     Alert.alert('Welcome!.')
-            // //   } 
-            // //   else {
-            // //     Alert.alert('Error', 'Username/Password mismatch', [{
-            // //           text: 'Okay'
-            // //         }])
-            // //   }
-            // }
-            // );
             Alert.alert("Send Successful")
             this.props.navigation.navigate('Home')
       }
@@ -67,7 +53,6 @@ export default class RequestScreen extends Component {
             })
       }
     render() {
-        // console.log(this.props.navigation.state.params)
         return (
           <TouchableWithoutFeedback onPress={() => {
             Keyboard.dismiss();

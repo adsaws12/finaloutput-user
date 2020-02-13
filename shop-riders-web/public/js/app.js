@@ -2000,13 +2000,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     setPlace: function setPlace(place) {
       this.currentPlace = place;
     },
-    addMarker: function addMarker() {
+    addMarker: function addMarker(e) {
       e.preventDefault();
 
       if (this.currentPlace) {
@@ -2042,7 +2050,7 @@ __webpack_require__.r(__webpack_exports__);
 
       e.preventDefault();
       axios.post('/admin/shop/edit/' + this.shopinfo.id, this.form).then(function () {
-        toastr.success('Successfully created');
+        toastr.success('Successfully Edit');
         setTimeout(function () {
           location.href = '/admin/shops';
         }, 1000);
@@ -2067,6 +2075,8 @@ __webpack_require__.r(__webpack_exports__);
     this.form.shops.personel = this.shopinfo.personel;
     this.form.shops.priceofcar = this.shopinfo.priceofcar;
     this.form.shops.priceofmotor = this.shopinfo.priceofmotor;
+    this.form.shops.priceofcarvul = this.shopinfo.priceofcarvul;
+    this.form.shops.priceofmotorvul = this.shopinfo.priceofmotorvul;
     var markers = [];
     this.shopinfo.shop_markers.forEach(function (data) {
       var mark = {
@@ -2095,6 +2105,7 @@ __webpack_require__.r(__webpack_exports__);
       opening_time: workingTime,
       form: {
         markers: [],
+        dragMarkers: [],
         users: {
           email: null,
           password: null,
@@ -2109,7 +2120,9 @@ __webpack_require__.r(__webpack_exports__);
           contact: null,
           personel: null,
           priceofcar: null,
-          priceofmotor: null
+          priceofmotor: null,
+          priceofcarvul: null,
+          priceofmotorvul: null
         }
       }
     };
@@ -2171,6 +2184,14 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue2_google_maps__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue2-google-maps */ "./node_modules/vue2-google-maps/dist/main.js");
 /* harmony import */ var vue2_google_maps__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue2_google_maps__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2385,7 +2406,9 @@ __webpack_require__.r(__webpack_exports__);
         end_time: null,
         personel: null,
         priceofcar: null,
-        priceofmotor: null
+        priceofmotor: null,
+        priceofmotorvul: null,
+        priceofcarvul: null
       }
     };
   },
@@ -39591,7 +39614,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { staticClass: "bmd-label-floating" }, [
-                  _vm._v("Price range for a car")
+                  _vm._v("Price range for a car for Repair")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -39623,7 +39646,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { staticClass: "bmd-label-floating" }, [
-                  _vm._v("Price range for a motorcyle")
+                  _vm._v("Price range for a motorcyle for Repair")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -39646,6 +39669,70 @@ var render = function() {
                       _vm.$set(
                         _vm.form.shops,
                         "priceofmotor",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a car for Vulcanizing")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.shops.priceofcarvul,
+                      expression: "form.shops.priceofcarvul"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofcarvul" },
+                  domProps: { value: _vm.form.shops.priceofcarvul },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.shops,
+                        "priceofcarvul",
+                        $event.target.value
+                      )
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a motorcyle for Vulcanizing")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.shops.priceofmotorvul,
+                      expression: "form.shops.priceofmotorvul"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofmotorvul" },
+                  domProps: { value: _vm.form.shops.priceofmotorvul },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.form.shops,
+                        "priceofmotorvul",
                         $event.target.value
                       )
                     }
@@ -39682,7 +39769,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: { click: _vm.addMarker }
                           },
-                          [_vm._v("Add")]
+                          [_vm._v("Add Marker")]
                         )
                       ],
                       1
@@ -40160,7 +40247,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { staticClass: "bmd-label-floating" }, [
-                  _vm._v("Price range for a car")
+                  _vm._v("Price range for a car for Repair")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -40188,7 +40275,7 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "form-group" }, [
                 _c("label", { staticClass: "bmd-label-floating" }, [
-                  _vm._v("Price range for a motorcyle")
+                  _vm._v("Price range for a motorcyle for Repair")
                 ]),
                 _vm._v(" "),
                 _c("input", {
@@ -40209,6 +40296,62 @@ var render = function() {
                         return
                       }
                       _vm.$set(_vm.form, "priceofmotor", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a car for Vulcanizing")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.priceofcarvul,
+                      expression: "form.priceofcarvul"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofcarvul" },
+                  domProps: { value: _vm.form.priceofcarvul },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "priceofcarvul", $event.target.value)
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c("label", { staticClass: "bmd-label-floating" }, [
+                  _vm._v("Price range for a motorcyle for Vulcanizing")
+                ]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.priceofmotorvul,
+                      expression: "form.priceofmotorvul"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", name: "priceofmotorvul" },
+                  domProps: { value: _vm.form.priceofmotorvul },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "priceofmotorvul", $event.target.value)
                     }
                   }
                 })

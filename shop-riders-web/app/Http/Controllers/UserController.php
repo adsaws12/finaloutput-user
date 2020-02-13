@@ -8,6 +8,7 @@ use App\Shop;
 use App\ShopMarker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -19,9 +20,24 @@ class UserController extends Controller
         $user->name = $request->get('lastname') . ',' . $request->get('firstname');
         $user->password = Hash::make($request->get('password'));
         $user->types = 2; // user account ang gi add
+        $user->api_token = Str::random(60);
+
         $user->save();
+
+        
         
     }
+    public function update(Request $request)
+    {
+        $token = Str::random(60);
+
+        $request->user()->forceFill([
+            'api_token' => hash('sha256', $token),
+        ])->save();
+
+        return ['token' => $token];
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -29,6 +45,11 @@ class UserController extends Controller
         // dd($credentials);
         if (Auth::attempt($credentials)) {
             $userInfo = Auth::user();
+            $token = Str::random(60);
+
+            $userInfo->forceFill([
+                'api_token' => hash('sha256', $token),
+            ])->save();
             
             $data['shop'] = Shop::where('user_id', $userInfo->id)->with('userInfo', 'shopMarkers')->first();
             $data['user'] = $userInfo;
