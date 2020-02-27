@@ -4,14 +4,14 @@
       "slug": "shop-riders",
       "privacy": "public",
       "sdkVersion": "35.0.0",
-      "platforms": [
+      "platforms": [  
         "ios",
         "android",
         "web"
       ],
       "version": "1.0.0",
       "orientation": "portrait",
-      "icon": "./assets/img/logosample.png",
+      "icon": "./assets/img/userlogo.png",
       "splash": {
         "image": "./assets/img/1st.png",
         "resizeMode": "cover",

@@ -30,7 +30,7 @@ export default class RequestScreen extends Component {
      
       sendRequest() {
         const token = this.props.navigation.state.params.token;
-        fetch('https://ef005894.ngrok.io/api/user/userrequest?api_token=' + token, {
+        fetch('https://eeec135e.ngrok.io/api/user/userrequest?api_token=' + token, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

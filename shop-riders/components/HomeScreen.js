@@ -39,7 +39,7 @@ class HomeScreen extends React.Component {
 
     getMarkers() {
         const token = this.props.navigation.state.params.token
-        fetch('https://ef005894.ngrok.io/api/shop/markers?api_token=' + token, {
+        fetch('https://eeec135e.ngrok.io/api/shop/markers?api_token=' + token, {
             method: 'GET',
         })
             .then(response => response.json())

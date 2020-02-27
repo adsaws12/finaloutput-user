@@ -24,19 +24,19 @@ class RequestController extends Controller
         $userRequest->save();
         $userId = $userRequest->id;
 
-        // $basic  = new \Nexmo\Client\Credentials\Basic('b67fbe90', 'x31NFLSsfSnqToOR');
-        // $client = new \Nexmo\Client($basic);
+        $basic  = new \Nexmo\Client\Credentials\Basic('b67fbe90', 'x31NFLSsfSnqToOR');
+        $client = new \Nexmo\Client($basic);
         
-        // $name = $request->get('name');
-        // $number = $request->get('number');
-        // $typeofvehicle = $request->get('typeofvehicle');
-        // $problem = $request->get('problem');
+        $name = $request->get('name');
+        $number = $request->get('number');
+        $typeofvehicle = $request->get('typeofvehicle');
+        $problem = $request->get('problem');
 
-        // $message = $client->message()->send([
-        //     'to' => '639322480085',
-        //     'from' => 'Nexmo',
-        //     'text' => 'VRShop has request for assitance ' . "\n" . ' Name: ' . $name ."\n" . 'Number: ' . $number  . "\n" . 'Type of Vehicle: ' . $typeofvehicle . "\n" . 'Problem: ' . $problem . "\n",
-        // ]);
+        $message = $client->message()->send([
+            'to' => '639322480085',
+            'from' => 'Nexmo',
+            'text' => 'VRShop has request for assitance ' . "\n" . ' Name: ' . $name ."\n" . 'Number: ' . $number  . "\n" . 'Type of Vehicle: ' . $typeofvehicle . "\n" . 'Problem: ' . $problem . "\n",
+        ]);
 
         return response()->json($userRequest);
 
