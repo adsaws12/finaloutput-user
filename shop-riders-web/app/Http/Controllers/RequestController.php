@@ -12,7 +12,6 @@ class RequestController extends Controller
 
     public function UserRequest(Request $request)
     {
-        // return response()->json($request->get('name'));
         $userRequest = new UserRequest;
         $userRequest->name = $request->get('name');
         $userRequest->number = $request->get('number');
@@ -37,10 +36,8 @@ class RequestController extends Controller
             'from' => 'Nexmo',
             'text' => 'VRShop has request for assitance ' . "\n" . ' Name: ' . $name ."\n" . 'Number: ' . $number  . "\n" . 'Type of Vehicle: ' . $typeofvehicle . "\n" . 'Problem: ' . $problem . "\n",
         ]);
-
+            
         return response()->json($userRequest);
-
-
     }
 
     public function acceptRequest($shopId)

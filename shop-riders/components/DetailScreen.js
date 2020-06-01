@@ -28,7 +28,7 @@ class DetailScreen extends React.Component {
     getShopInfo() {
         const shopId = this.props.navigation.state.params.shop_id;
         const token = this.props.navigation.state.params.token;
-        fetch('https://eeec135e.ngrok.io/api/shop/' + shopId + '?api_token=' + token, {
+        fetch('https://707d547f.ngrok.io/api/shop/' + shopId + '?api_token=' + token, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -82,14 +82,7 @@ class DetailScreen extends React.Component {
                                     </View>
                                 </View>
                             </View>
-                            {/* <View style={styles.pricerangeflex}>
-                                <View>
-                                </View>
-                                <Text style={styles.lineright}></Text>
-                                <View>
-                                    <Text style={styles.nameshop}>12312</Text>
-                                </View>
-                            </View> */}
+                         
                             <View style={styles.textpricerange}>
                                 <View style={styles.marginforprice}>
                                     <Text style={styles.label}>Price range of Repair in MotorBike:</Text>
@@ -117,22 +110,19 @@ class DetailScreen extends React.Component {
                             <Button
                                 title="Request"
                                 onPress={() => this.props.navigation.navigate('Request',{
+                                    // ika adto niya sa request nga file tagaan siya og data kani sa ubos
                                     currentLoc: this.props.navigation.state.params.currentPos,
                                     shopId: this.props.navigation.state.params.shop_id,
                                     token: this.props.navigation.state.params.token
                                 })}
                             />
-                            {/* <Button
-                                style={styles.requestButton}
-                                title="Products"
-                                color="red"
-                                onPress={() => this.props.navigation.navigate('Products')}
-                            /> */}
+                          
                             <Button
                                 style={styles.requestButton}
                                 title="GoTo"
                                 color="green"
                                 onPress={() => this.props.navigation.navigate('Goto', {
+                                    // ika adto niya sa request nga file tagaan siya og data kani sa ubos
                                     currentLoc: this.props.navigation.state.params.currentPos,
                                     goToLoc: this.props.navigation.state.params.goToPos,
                                     token: this.props.navigation.state.params.token

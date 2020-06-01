@@ -24,6 +24,7 @@
   <title>
     Material Dashboard by Creative Tim
   </title>
+
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -32,6 +33,10 @@
   <link href="{{ asset('assets/css/material-dashboard.css?v=2.1.1')}}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="{{ asset('assets/demo/demo.css')}}" rel="stylesheet" />
+
+  <!-- bootstrap -->
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
 
 <body class="">
@@ -53,12 +58,6 @@
             <a class="nav-link" href="{{ url('home') }}">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item {{ (request()->is('admin/users')) ? 'active' : '' }}">
-            <a class="nav-link" href="">
-              <i class="material-icons">person</i>
-              <p>Users</p>
             </a>
           </li>
           <li class="nav-item {{ (request()->is('admin/shops')) ? 'active' : '' }}">

@@ -34,12 +34,13 @@ export default class LoginScreen extends Component {
     // else {
     //   
     // }
-    fetch('https://eeec135e.ngrok.io/api/user/login', {
+    fetch('https://707d547f.ngrok.io/api/user/login', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
+        // himoun niya og string params ang object para mailhan sa api kay di man pwee maka pasa og object
         body: JSON.stringify(this.state),
         })
         .then(response => response.json())
@@ -49,6 +50,7 @@ export default class LoginScreen extends Component {
               } else {
                 this.setState({token: json.data.user.api_token})
                 this.props.navigation.navigate('Home', {
+                  // while mo navigate sa home gtagaan og token padong home
                   token: json.data.user.api_token
                 })
               }
@@ -56,21 +58,9 @@ export default class LoginScreen extends Component {
             .catch(error => {
                 console.error(error);
             });
-        // .then( response => {
-        //   console.log(response.json());
-        //   if (response.status == 200) {
-        //     
-        //   } 
-        //   else {
-        //     Alert.alert('Error', 'Username/Password mismatch', [{
-        //           text: 'Okay'
-        //         }])
-        //   }
-        // });
-        // this.props.navigation.navigate('Home')
+
   }
   render() {
-    
     console.disableYellowBox = true;
     return (
     //  Login Form

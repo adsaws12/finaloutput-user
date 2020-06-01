@@ -16,7 +16,7 @@ class ShopController extends Controller
     public function index()
     {
         $shops = Shop::all()->load('shopMarkers');
-
+        // ang compact himoun siya og array value
         return view('shop.index', compact('shops'));
     }
 
@@ -27,6 +27,7 @@ class ShopController extends Controller
 
     public function addSubmit(Request $request)
     {
+        // ang email kay mao na column sa database nya if ing ani 'email' kay pagkuha sa imong g input
         $user = new User;
         $user->email = $request->get('email');
         $user->name = $request->get('name');
@@ -59,9 +60,6 @@ class ShopController extends Controller
             $shopMarker->longitude = $marker['lng'];
             $shopMarker->save();
         }
-
-
-
         return response()->json(['message' => 'Success', 200]);
     }
 

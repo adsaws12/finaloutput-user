@@ -26,7 +26,7 @@ export default class RegisterScreen extends Component {
       header: null
     }
     addUserInfo() {
-        fetch('https://eeec135e.ngrok.io/api/user/add', {
+        fetch('https://707d547f.ngrok.io/api/user/add', {
         method: 'POST',
         headers: {
             Accept: 'application/json',

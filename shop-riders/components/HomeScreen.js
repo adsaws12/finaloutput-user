@@ -39,7 +39,7 @@ class HomeScreen extends React.Component {
 
     getMarkers() {
         const token = this.props.navigation.state.params.token
-        fetch('https://eeec135e.ngrok.io/api/shop/markers?api_token=' + token, {
+        fetch('https://707d547f.ngrok.io/api/shop/markers?api_token=' + token, {
             method: 'GET',
         })
             .then(response => response.json())
@@ -105,8 +105,11 @@ class HomeScreen extends React.Component {
                 title={marker.title}
                 description={marker.subtitle}
                 onCalloutPress={() => this.props.navigation.navigate('Details', {
+                    //samtang mo adto siya sa detailscreen tagaan niya og id sa shop
                     shop_id: marker.shop_id,
+                    //samtang mo adto siya sa detailscreen tagaan niya og currentpos sa user
                     currentPos: this.state.region,
+                    
                     goToPos: marker,
                     token: this.props.navigation.state.params.token
                 })}
@@ -117,7 +120,6 @@ class HomeScreen extends React.Component {
     }
 
     render() {
-        
         if (this.state.ready) {
             mapview = <MapView
                 style={styles.mapStyle}
